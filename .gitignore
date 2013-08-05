@@ -1,0 +1,5 @@
+Thumbs.db
+env.*.sh
+.DS_Store
+private
+node_modules
