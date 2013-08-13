@@ -7,6 +7,13 @@ var fs = require('fs');
 var path = require('path');
 var app = express();
 
+app.configure('production', function() {
+  app.use(express.logger());
+});
+app.configure('development', function() {
+  app.use(express.logger('dev'));
+});
+
 app.configure(function() {
   app.set('port', process.env.PORT || 3000);
   app.set('portssl', process.env.PORTSSL || 8000);
@@ -14,16 +21,12 @@ app.configure(function() {
   app.set('view engine', 'html');
   app.engine('html', require('ejs').__express);
   app.use(express.favicon());
-  app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser('your secret here'));
   app.use(express.session());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
-});
-
-app.configure('development', function() {
   app.use(express.errorHandler());
 });
 
