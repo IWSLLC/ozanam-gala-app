@@ -25,23 +25,38 @@
           var $form = $(form);
           var $button = $form.find('button[type="submit"]');
           $button.attr('disabled','disabled');
-          $.post($form.attr('action'), $form.serialize(), function(json) {
-            if (json.success)
-              window.location = '/register/thankyou?confirm=' + json.id;
-            else {
+          $.ajax({
+            type: "POST",
+            url: $form.attr('action'),
+            data: $form.serialize(),
+            error: function(req,textStatus,err) {
               $button.removeAttr('disabled');
-              
-              $(json.broke).each(function(ix) {
-                var field;
-                field = json.broke[ix];
-                $field = $form.find('#' + field);
-                if ($field) {
-                  $field.addClass('error');
-                }
-                console.log(json.broke[ix].field);
-              });
-            }
-          }, 'json');
+              if (req.responseJSON && req.responseJSON.message) {
+                var $err;
+                $err = $('#error');
+                $err.text(req.responseJSON.message);
+                $err.show()
+              }
+            },
+            success: function(json) {
+              if (json.success)
+                window.location = '/register/thankyou?confirm=' + json.id;
+              else {
+                $button.removeAttr('disabled');
+                
+                $(json.broke).each(function(ix) {
+                  var field;
+                  field = json.broke[ix];
+                  $field = $form.find('#' + field);
+                  if ($field) {
+                    $field.addClass('error');
+                  }
+                  console.log(json.broke[ix].field);
+                });
+              }
+            },
+            dataType: 'json'
+          });
         }
       });
   }); //end ready

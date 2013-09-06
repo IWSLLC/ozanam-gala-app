@@ -55,6 +55,10 @@ body p.lead {
   font-size: 32px;
   line-height: 40px;
 }
+
+.content p {
+  margin-bottom: 30px;
+}
 .controls,.controls label {
   font: 18px/28px "Open Sans Condensed", sans-serif;
   font-weight: bold;

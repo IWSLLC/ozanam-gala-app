@@ -13,7 +13,7 @@ module.exports = function (app, auth) {
   })
   app.get('/sponsor', function(req, res) {
     var model = vm.new();
-    model.title = 'Sponsors - 2013 Ozanam Holywood Holiday Gala'
+    model.title = 'Sponsorships - 2013 Ozanam Holywood Holiday Gala'
     return res.render('sponsor.html', model)
   })
   app.get('/problem', function(req, res) {

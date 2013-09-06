@@ -78,9 +78,12 @@ module.exports = function (app, auth) {
                           }
                         },
                         {name : 'order.extraSeats', label : 'extra seats'},
+                        {name : 'order.donation', label : 'Donation'},
                         {name : 'order.myoTaxCredit', label : 'myo tax credit'},
                         {name : 'order.companyMatch', label : 'company match'},
-                        {name : 'order.boardMember', label : 'referred by board member'}
+                        {name : 'order.boardMember', label : 'referred by board member'},
+                        {name : 'order.sendInvoice', label : 'send invoice by check'},
+                        {name : 'order.seating', label : 'seating preference'}
                         ]
             }, 
             function(err,csv) {

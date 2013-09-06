@@ -61,13 +61,17 @@ module.exports = function (app, auth) {
     r.contact.email = post.email
     r.order.level = parseInt(post.level)
     r.order.extraSeats = parseInt(post.extra || '0')
+    r.order.donation = parseFloat(post.donation || '0')
     r.order.myoTaxCredit = post.myoTaxCreditInfo ? true : false
     r.order.companyMatch = post.companyMatch ? true : false
     r.order.boardMember = post.boardMember
+    r.order.seating = post.seating
+    r.order.sendInvoice = post.sendInvoice ? true : false
 
     reg.insert(r, function(err,data) {
       if (err) {
-        res.redirect('/problem')
+        console.log(err);
+        res.send(500, {success: false, message : 'Cannot register at this time.'})
       }
       else {
         res.send(200, {success: true, id : data._id.toHexString()})

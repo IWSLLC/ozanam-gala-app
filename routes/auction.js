@@ -4,19 +4,19 @@ var moment = require('moment')
 var reg = require('../lib/donations')
 
 module.exports = function (app, auth) {
-  app.get('/donate/thankyou', function(req, res) {
+  app.get('/auction/thankyou', function(req, res) {
     var model = vm.new();
     model.title = 'Thankyou for registering your donation! - 2013 Ozanam Holywood Holiday Gala'
     return res.render('donationThankyou.html', model)
   })
 
-  app.get('/donate', function(req,res) {
+  app.get('/auction', function(req,res) {
     ocrypto.httpsCheck(req,res)
     var model = vm.new();
     model.title = 'Donate Auction Item - 2013 Ozanam Holywood Holiday Gala'
     return res.render('donate.html', model)
   })
-  app.post('/donate', function(req, res) { 
+  app.post('/auction', function(req, res) { 
     ocrypto.httpsCheck(req,res)
     var post = req.body;
     var worked = true;
