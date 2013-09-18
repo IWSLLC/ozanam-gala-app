@@ -1,7 +1,7 @@
 <% include header.html %>
 
 <h2 class="blue">Donate an Auction Item</h2>
-  <form id="donateForm" method="POST" action="/donate">
+  <form id="donateForm" method="POST" action="/auction">
       <fieldset>
           <legend>Auction Item Donation Form</legend>
           <div class="form-horizontal">
@@ -69,7 +69,7 @@
             <div class="control-group">
               <label for="itemDescription" class="control-label">Item Description</label>
               <div class="controls">
-                  <textarea id="itemDescription" name="itemDescription" rows="4"></textarea>
+                  <textarea id="itemDescription" name="itemDescription" rows="4" required></textarea>
               </div>
             </div>
             <div class="control-group">

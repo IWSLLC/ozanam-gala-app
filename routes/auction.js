@@ -38,8 +38,6 @@ module.exports = function (app, auth) {
       broke.push({field: 'phone', message: 'required'})
     if (!((post.email || '').trim()))
       broke.push({field: 'email', message: 'required'})
-    if (!((post.itemValue || '').trim()))
-      broke.push({field: 'itemValue', message: 'required'})
     if (!((post.itemDescription || '').trim()))
       broke.push({field: 'itemDescription', message: 'required'})
 

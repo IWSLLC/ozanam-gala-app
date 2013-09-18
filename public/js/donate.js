@@ -37,14 +37,14 @@
           $button.attr('disabled','disabled');
           $.post($form.attr('action'), $form.serialize(), function(json) {
             if (json.success)
-              window.location = '/donate/thankyou?confirm=' + json.id;
+              window.location = '/auction/thankyou?confirm=' + json.id;
             else {
               $button.removeAttr('disabled');
               
               $(json.broke).each(function(ix) {
                 var field;
                 field = json.broke[ix];
-                $field = $form.find('#' + field);
+                $field = $form.find('#' + field.field);
                 if ($field) {
                   $field.addClass('error');
                 }
