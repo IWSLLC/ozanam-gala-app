@@ -38,9 +38,8 @@ module.exports = function (app, auth) {
           jsoncsv.toCSV(
             {
               data: data, 
-              fields : [{ name : 'contact.contact',
-                          label : 'contact'
-                        },
+              fields : [{name : '_id', label : 'ID'},
+                        {name : 'contact.contact', label : 'contact'},
                         {name : 'contact.company', label : 'company'},
                         {name : 'contact.street', label : 'street'},
                         {name : 'contact.city', label : 'city'},
@@ -83,7 +82,9 @@ module.exports = function (app, auth) {
                         {name : 'order.companyMatch', label : 'company match'},
                         {name : 'order.boardMember', label : 'referred by board member'},
                         {name : 'order.sendInvoice', label : 'send invoice by check'},
-                        {name : 'order.seating', label : 'seating preference'}
+                        {name : 'order.seating', label : 'seating preference'},
+                        {name : 'order.total', label : 'TOTAL'},
+                        {name : 'order.paymentOption', label : 'payment option'}
                         ]
             }, 
             function(err,csv) {
@@ -122,12 +123,9 @@ module.exports = function (app, auth) {
           jsoncsv.toCSV(
             {
               data: data, 
-              fields : [{ name : 'contact.donor',
-                          label : 'donor'
-                        },
-                        { name : 'contact.contact',
-                          label : 'contact'
-                        },
+              fields : [{name : '_id', label : 'ID'},
+                        {name : 'contact.donor', label : 'donor'},
+                        {name : 'contact.contact', label : 'contact' },
                         {name : 'contact.company', label : 'company'},
                         {name : 'contact.street', label : 'street'},
                         {name : 'contact.city', label : 'city'},

@@ -101,7 +101,7 @@
               <div class="controls">
                 <div class="input-prepend input-append">
                   <span class="add-on">$</span>
-                  <input type="number" min="0" step="1" name="donation" id="extra" placeholder="0"/>
+                  <input type="number" min="0" step="1" name="donation" id="donation" placeholder="0"/>
                   <span class="add-on">.00</span>
                 </div>
                 <div class="help-block muted">I am unable to attend the event but would like to make a donation.</div>
@@ -132,8 +132,11 @@
               </div>
             </div>
             <div class="control-group">
+              <label for="paymentOption" class="control-label">Payment</label>
               <div class="controls">
-                <label for="sendInvoice"><input type="checkbox" id="sendInvoice" name="sendInvoice" value="true"/> Please send me an invoice, and I will remit a check payable to Ozanam.</label>
+                <p>Would you like to pay now with PayPal?</p>
+                <label for="paymentOptionPayPal" class="muted"><input type="radio" id="paymentOptionPayPal" name="paymentOption" value="paypal" disabled/> Yes, I want to pay with PayPal now. <small style="color: navy !important;">(Coming Soon)!</small></label>
+                <br/><label for="paymentOptionCheck"><input type="radio" id="paymentOptionCheck" name="paymentOption" value="check" checked/> No, I'd like to pay with a check.</label>
               </div>
             </div>
             <div class="control-group">

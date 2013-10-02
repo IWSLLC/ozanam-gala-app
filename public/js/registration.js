@@ -19,7 +19,9 @@
           $(element).closest('.control-group').addClass('error'); // add the Bootstrap error class to the control group
         },
         success: function(element) {
-          $(element).closest('.control-group').removeClass('error'); // remove the Boostrap error class from the control group
+          var $group = $(element).closest('.control-group');
+          $group.removeClass('error'); // remove the Boostrap error class from the control group
+          $group.find('.temp').remove();
         },
         submitHandler : function(form) {
           var $form = $(form);
@@ -40,18 +42,20 @@
             },
             success: function(json) {
               if (json.success)
-                window.location = '/register/thankyou?confirm=' + json.id;
+                window.location = '/register/thankyou?confirm=' + json.id + '&amount=' + json.amount;
               else {
                 $button.removeAttr('disabled');
                 
                 $(json.broke).each(function(ix) {
                   var field;
                   field = json.broke[ix];
-                  $field = $form.find('#' + field);
+                  var $field = $form.find('#' + field.field);
                   if ($field) {
-                    $field.addClass('error');
+                    var $group = $field.closest('.control-group');
+                    $group.addClass('error')
+                    $group.find('.controls').append('<div class="help-block error temp">' + field.message + '</div>')
                   }
-                  console.log(json.broke[ix].field);
+                  console.log(json.broke[ix]);
                 });
               }
             },
@@ -60,7 +64,4 @@
         }
       });
   }); //end ready
-
-
-
 }).call(this);
