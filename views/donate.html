@@ -66,7 +66,11 @@
             <div class="control-group">
               <label for="itemValue" class="control-label">Item Value</label>
               <div class="controls">
-                  <input type="number" name="itemValue" id="itemValue" placeholder="0.00"/>
+                <div class="input-prepend input-append">
+                  <span class="add-on">$</span>
+                  <input type="number" min="0" step="1" name="itemValue" id="itemValue" placeholder="0"/>
+                  <span class="add-on">.00</span>
+                </div>
               </div>
             </div>
             <div class="control-group">
