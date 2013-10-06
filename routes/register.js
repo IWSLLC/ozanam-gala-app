@@ -12,6 +12,12 @@ module.exports = function (app, auth) {
     return res.render('thankyou.html', model)
   })
 
+  app.get('/register/payment', function(req,res) {
+    var model = vm.new();
+    model.title = ''
+    return res.render('payment.html', model)
+  })
+
   //-----REGISTRATION-----
   app.get('/register', function(req, res) {
     ocrypto.httpsCheck(req,res)
