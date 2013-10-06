@@ -4,8 +4,8 @@ export PORT=3000
 export PORTSSL=8000
 export ENABLESSL=no
 export SSL_HOSTNAME=localhost:8000
-export OCRYPTO=pass
 export NODE_ENV=development
+export OCRYPTO=pass
 export MONGO="mongodb://localhost:27017/gala?auto_reconnect=true&maxPoolSize=10"
 export PP_HOST="api.sandbox.paypal.com"
 export PP_PORT=""
