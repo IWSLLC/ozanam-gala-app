@@ -2,6 +2,7 @@ var reg = require('../lib/registrations')
 var vm = require('../lib/vm')
 var ocrypto = require('../lib/ocrypto')
 var number = require('../lib/number')
+var pay = require('../lib/payment')
 
 module.exports = function (app, auth) {
   app.get('/register/thankyou', function(req, res) {
@@ -24,6 +25,13 @@ module.exports = function (app, auth) {
     var model = vm.new()
     model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
     return res.render('register.html', model)
+  })
+
+  app.get('/register/finish', function(req,res) {
+    
+  })
+  app.get('/register/cancel', function(req,res) {
+
   })
 
   app.post('/register', function(req, res) { 
@@ -114,8 +122,7 @@ module.exports = function (app, auth) {
     r.order.companyMatch = post.companyMatch ? true : false
     r.order.boardMember = post.boardMember
     r.order.seating = post.seating
-    //r.order.paymentOption = post.paymentOption || 'check'
-    //TODO: update this to allow payment option.
+    r.order.paymentOption = post.paymentOption || 'check'
 
     reg.insert(r, function(err,data) {
       if (err) {
@@ -123,7 +130,30 @@ module.exports = function (app, auth) {
         res.send(500, {success: false, message : 'Cannot register at this time.'})
       }
       else {
-        res.send(200, {success: true, id : data._id.toHexString(), amount : number.formatMoney(r.order.total)})
+        r._id = data._id
+        //if paypal checkout, start the process. 
+        if (r.order.paymentOption === 'paypal')
+        {
+          pay.start(r._id, function(err,url) {
+            if (err) { 
+              console.dir(err)
+              debugger;
+              //can't checkout with paypal, but we registerd the guest. 
+              //show them the mail your check thanks page. 
+              return res.send(200, {
+                success: true,
+                payment: 'check',
+                message: 'Unfortunately, we are unable to start the PayPal payment at this time. Your registration is recorded, but we require that you send us a payment by check instead. We apologize for the inconvencience and thank you for your patience.', 
+                id : r._id.toHexString(), 
+                amount : number.formatMoney(r.order.total)
+              })
+            }
+            else
+              res.send(200, {success: true, payment: 'paypal', redirect: url})
+          });
+        }
+        else
+         res.send(200, {success: true, payment: 'check', id : r._id.toHexString(), amount : number.formatMoney(r.order.total)})
       }
     });
   })

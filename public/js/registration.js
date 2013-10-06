@@ -42,7 +42,15 @@
             },
             success: function(json) {
               if (json.success)
-                window.location = '/register/thankyou?confirm=' + json.id + '&amount=' + json.amount;
+              {
+                if (json.message)
+                  alert(json.message);
+
+                if (json.payment == 'paypal') 
+                  window.location = json.redirect;
+                else 
+                  window.location = '/register/thankyou?confirm=' + json.id + '&amount=' + json.amount;
+              }
               else {
                 $button.removeAttr('disabled');
                 
