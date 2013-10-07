@@ -2,10 +2,11 @@
 <div id="wrap">
 <div class="container content">
   <!-- content start  -->
-<h2 class="blue">Registration Payment</h2>
+<h2 class="blue">Registration</h2>
+<h3>Payment Confirmation</h3>
   <form id="registrationForm" method="POST" action="/register/finish">
     <input type="hidden" id="registrationId" name="registrationId" value="<%=id%>"/>
-    <p class="lead">Almost done!</p>
+    <p><strong>Almost done!</strong></p>
     <p>To complete your registration, please click "Complete Purchase". Your order total is: <strong>$<%=amount%></strong>. </p>
     <button type="submit" class="btn btn-large btn-primary">Complete Purchase</button>
   </form>

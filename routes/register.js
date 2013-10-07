@@ -7,17 +7,14 @@ var url = require('url')
 
 module.exports = function (app, auth) {
   app.get('/register/thankyou', function(req, res) {
-    var model = vm.new();
-    model.confirm = req.query.confirm
-    model.amount = req.query.amount
-    model.title = 'Thankyou for registering! - 2013 Ozanam Holywood Holiday Gala'
-    return res.render('thankyou.html', model)
-  })
-
-  app.get('/register/payment', function(req,res) {
-    var model = vm.new();
-    model.title = ''
-    return res.render('payment.html', model)
+    reg.findById(req.query.confirm, function(err,doc) {
+      var model = vm.new();
+      model.title = 'Thankyou for registering! - 2013 Ozanam Holywood Holiday Gala'
+      model.id = doc._id.toHexString()
+      model.amount = number.formatMoney(doc.order.total)
+      model.payment = doc.order.paymentOption
+      return res.render('thankyou.html', model)
+    })
   })
 
   //-----REGISTRATION-----
@@ -76,7 +73,7 @@ module.exports = function (app, auth) {
   })
 
   app.get('/register/cancel', function(req,res) {
-    reg.findByPPToken(req.query.token, function(err,record) {
+    reg.setCancelPayment(req.query.token, function(err,record) {
       if (err) {
         console.log(err);
         res.redirect('/problem')
@@ -184,33 +181,31 @@ module.exports = function (app, auth) {
     reg.insert(r, function(err,data) {
       if (err) {
         console.log(err);
-        res.send(500, {success: false, message : 'Cannot register at this time.'})
+        return res.send(500, {success: false, message : 'Cannot register at this time.'})
       }
-      else {
-        r._id = data._id
-        //if paypal checkout, start the process. 
-        if (r.order.paymentOption === 'paypal')
-        {
-          pay.start(r._id, function(err,redir) {
-            if (err) { 
-              console.dir(err)
-              //can't checkout with paypal, but we registerd the guest. 
-              //show them the mail your check thanks page. 
-              return res.send(200, {
-                success: true,
-                payment: 'check',
-                message: 'Unfortunately, we are unable to start the PayPal payment at this time. Your registration is recorded, but we require that you send us a payment by check instead. We apologize for the inconvencience and thank you for your patience.', 
-                id : r._id.toHexString(), 
-                amount : number.formatMoney(r.order.total)
-              })
-            }
-            else
-              res.send(200, {success: true, payment: 'paypal', redirect: redir})
-          });
-        }
-        else
-         res.send(200, {success: true, payment: 'check', id : r._id.toHexString(), amount : number.formatMoney(r.order.total)})
+
+      r._id = data._id
+      //if paypal checkout, start the process. 
+      if (r.order.paymentOption === 'paypal')
+      {
+        pay.start(r, function(err,redir) {
+          if (err) { 
+            console.dir(err)
+            //can't checkout with paypal, but we registerd the guest. 
+            //show them the mail your check thanks page. 
+            return res.send(200, {
+              success: true,
+              payment: 'check',
+              message: 'Unfortunately, we are unable to start the PayPal payment at this time. Your registration is recorded, but we require that you send us a payment by check instead. We apologize for the inconvencience and thank you for your patience.', 
+              id : r._id.toHexString(), 
+            })
+          }
+          else
+            res.send(200, {success: true, payment: 'paypal', redirect: redir})
+        });
       }
+      else
+        res.send(200, {success: true, payment: 'check', id : r._id.toHexString()})
     });
   })
 }

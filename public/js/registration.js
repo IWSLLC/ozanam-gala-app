@@ -49,7 +49,7 @@
                 if (json.payment == 'paypal') 
                   window.location = json.redirect;
                 else 
-                  window.location = '/register/thankyou?confirm=' + json.id + '&amount=' + json.amount;
+                  window.location = '/register/thankyou?confirm=' + json.id;
               }
               else {
                 $button.removeAttr('disabled');
