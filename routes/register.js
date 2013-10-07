@@ -53,7 +53,7 @@ module.exports = function (app, auth) {
       debugger;
       if (err) {
         if (record) {
-          return res.redirect('/register/thankyou?confirm=' + record._id.toHexString() + '&amount=' + number.formatMoney(record.order.total))
+          return res.redirect('/register/thankyou?confirm=' + record._id.toHexString())
         }
         else
         {
@@ -63,12 +63,7 @@ module.exports = function (app, auth) {
         }
       }
 
-      var model = vm.new()
-      model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
-      model.amount = number.formatMoney(record.order.total)
-      model.id = record._id.toHexString()
-
-      return res.render('thanksPP.html', model)      
+      return res.redirect('/register/thankyou?confirm=' + record._id.toHexString())
     })
   })
 

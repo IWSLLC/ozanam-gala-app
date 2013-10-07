@@ -6,7 +6,7 @@
 <h2>Thank You!</h2>
 
 <p>We will contact you soon to confirm your sponsorship. Your confirmation code is: </p>
-<p class="monotype"><%=confirm.toUpperCase()%></p>
+<p class="monotype"><%=id.toUpperCase()%></p>
 
 <%if(payment === 'check') {%>
 <p>Mail a check for the amount of <span class="monotype">$<%=amount%></span> payable to:
@@ -16,12 +16,6 @@
   Kansas City, MO 64145<br>
 </address>
 </p>
-<%}
-else {%>
-<p>
-  <form method="POST" action="/register/paypal">
-    <button type="submit" class="btn btn-large btn-primary">Checkout with PayPal</button>
-  </form>
 <%}%>
 <p>Please share this event with your friends and colleagues.</p>
 
