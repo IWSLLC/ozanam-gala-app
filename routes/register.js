@@ -3,6 +3,7 @@ var vm = require('../lib/vm')
 var ocrypto = require('../lib/ocrypto')
 var number = require('../lib/number')
 var pay = require('../lib/payment')
+var url = require('url')
 
 module.exports = function (app, auth) {
   app.get('/register/thankyou', function(req, res) {
@@ -28,10 +29,66 @@ module.exports = function (app, auth) {
   })
 
   app.get('/register/finish', function(req,res) {
-    
-  })
-  app.get('/register/cancel', function(req,res) {
+    reg.setPayerId(req.query.token, req.query.PayerID, function(err,record) {
+      if (err) {
+        if (record) {
+          return res.redirect('/register/thankyou?confirm=' + record._id.toHexString() + '&amount=' + number.formatMoney(record.order.total))
+        }
+        else
+        {
+          console.log(err);
+          res.redirect('/problem')
+          return
+        }
+      }
 
+      var model = vm.new()
+      model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
+      model.amount = number.formatMoney(record.order.total)
+      model.id = record._id.toHexString()
+      return res.render('finish.html', model)
+    })
+  })
+
+  app.post('/register/finish', function(req,res) {
+    debugger;
+    pay.finish(req.body.registrationId, function(err,record) {
+      debugger;
+      if (err) {
+        if (record) {
+          return res.redirect('/register/thankyou?confirm=' + record._id.toHexString() + '&amount=' + number.formatMoney(record.order.total))
+        }
+        else
+        {
+          console.log(err);
+          res.redirect('/problem')
+          return
+        }
+      }
+
+      var model = vm.new()
+      model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
+      model.amount = number.formatMoney(record.order.total)
+      model.id = record._id.toHexString()
+
+      return res.render('thanksPP.html', model)      
+    })
+  })
+
+  app.get('/register/cancel', function(req,res) {
+    reg.findByPPToken(req.query.token, function(err,record) {
+      if (err) {
+        console.log(err);
+        res.redirect('/problem')
+        return
+      }
+
+      var model = vm.new()
+      model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
+      model.amount = number.formatMoney(record.order.total)
+      model.id = record._id.toHexString()
+      res.render('cancel', model)
+    })
   })
 
   app.post('/register', function(req, res) { 
@@ -134,10 +191,9 @@ module.exports = function (app, auth) {
         //if paypal checkout, start the process. 
         if (r.order.paymentOption === 'paypal')
         {
-          pay.start(r._id, function(err,url) {
+          pay.start(r._id, function(err,redir) {
             if (err) { 
               console.dir(err)
-              debugger;
               //can't checkout with paypal, but we registerd the guest. 
               //show them the mail your check thanks page. 
               return res.send(200, {
@@ -149,7 +205,7 @@ module.exports = function (app, auth) {
               })
             }
             else
-              res.send(200, {success: true, payment: 'paypal', redirect: url})
+              res.send(200, {success: true, payment: 'paypal', redirect: redir})
           });
         }
         else
