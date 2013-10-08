@@ -61,6 +61,14 @@
           }, {
             mData: 'order.extraSeats',
             sTitle: 'Extra Seats'
+          }, {
+            mData: 'order.dateRegistered',
+            mRender: function ( data, type, full ) { return moment(data).format('YYYY-MM-DD h:mm a'); },
+            sTitle: 'Registered'
+          }, {
+            mData: 'order.dateRegistered',
+            mRender: function ( data, type, full ) { return moment(data).fromNow(); },
+            sTitle: 'Age'
           }
         ],
         aaData : data
