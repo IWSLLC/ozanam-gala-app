@@ -38,7 +38,7 @@ module.exports = function (app, auth) {
           jsoncsv.toCSV(
             {
               data: data, 
-              fields : [{name : '_id', label : 'ID'},
+              fields : [{name : '_id', label : 'Confirmation'},
                         {name : 'contact.contact', label : 'contact'},
                         {name : 'contact.company', label : 'company'},
                         {name : 'contact.street', label : 'street'},
@@ -123,7 +123,7 @@ module.exports = function (app, auth) {
           jsoncsv.toCSV(
             {
               data: data, 
-              fields : [{name : '_id', label : 'ID'},
+              fields : [{name : '_id', label : 'Confirmation'},
                         {name : 'contact.donor', label : 'donor'},
                         {name : 'contact.contact', label : 'contact' },
                         {name : 'contact.company', label : 'company'},
