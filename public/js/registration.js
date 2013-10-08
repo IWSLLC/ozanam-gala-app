@@ -27,6 +27,7 @@
           var $form = $(form);
           var $button = $form.find('button[type="submit"]');
           $button.attr('disabled','disabled');
+          $('#error').hide().text('');
           $.ajax({
             type: "POST",
             url: $form.attr('action'),
@@ -42,10 +43,14 @@
             },
             success: function(json) {
               if (json.success)
-                window.location = '/register/thankyou?confirm=' + json.id + '&amount=' + json.amount;
+              {
+                window.location = '/register/confirm?confirm=' + json.id;
+              }
               else {
                 $button.removeAttr('disabled');
-                
+                if (json.message)
+                  $('#error').text(json.message).show();
+
                 $(json.broke).each(function(ix) {
                   var field;
                   field = json.broke[ix];

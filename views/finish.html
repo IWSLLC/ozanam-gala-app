@@ -1,0 +1,19 @@
+<% include header.html %>
+<div id="wrap">
+<div class="container content">
+  <!-- content start  -->
+<h2 class="blue">Registration</h2>
+<h3>Payment Confirmation</h3>
+  <form id="registrationForm" method="POST" action="/register/finish">
+    <input type="hidden" id="registrationId" name="registrationId" value="<%=id%>"/>
+    <p><strong>Almost done!</strong></p>
+    <p>Sponsorship: <%=sponsorship.description%>
+    <br/>Extra Seats: $<%=extraSeats%>
+    <br/>Donation: $<%=donation%>
+    <br/>Order Total: $<%=amount%></p>
+    <button type="submit" class="btn btn-large">Complete Purchase</button>
+  </form>
+<% include footer.html %>
+<% include scripts.html %>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.11.1/jquery.validate.min.js"></script> 
+<% include tail.html %>

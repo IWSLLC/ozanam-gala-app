@@ -6,6 +6,7 @@ var http = require('http');
 var fs = require('fs');
 var path = require('path');
 var app = express();
+var paypal_sdk = require('paypal-rest-sdk')
 
 app.configure('production', function() {
   app.use(express.logger());
@@ -28,6 +29,13 @@ app.configure(function() {
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(express.errorHandler());
+});
+
+paypal_sdk.configure({
+  'host': process.env.PP_HOST,
+  'port': process.env.PP_PORT,
+  'client_id': process.env.PP_CLIENT_ID,
+  'client_secret': process.env.PP_CLIENT_SECRET
 });
 
 var auth = authentication.basicAuth(app);
