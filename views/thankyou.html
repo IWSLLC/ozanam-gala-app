@@ -5,14 +5,14 @@
 
 <h2>Thank You!</h2>
 
-<%if (model.problem) {%>
+<%if (problem) {%>
 <p>We apologize for the inconvenience, but our PayPal checkout failed to complete successfully. We still have your registration, but we will need you to mail us a check for the total shown below.</p>
 <%}%>
 
 <p>We will contact you soon to confirm your sponsorship. Your confirmation code is: </p>
 <p class="monotype"><%=id.toUpperCase()%></p>
 
-<%if(payment === 'check' || model.problem === 1) {%>
+<%if(doc.order.paymentOption === 'check' || problem === 1) {%>
 <p>Please mail a check for the amount of <span class="monotype">$<%=amount%></span> payable to:
 <address>
   <strong>Ozanam</strong><br>

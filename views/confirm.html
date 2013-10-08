@@ -3,112 +3,131 @@
 <div class="container content">
   <!-- content start  -->
 <h2 class="blue">Registration</h2>
-  <form id="registrationForm" method="POST" action="/register/confirm">
+  <form method="POST" action="/register/confirm">
+      <input type="hidden" name="confirmation" value="<%=id%>"/>
       <fieldset>
-          <legend>Corporate Sponsor Agreement</legend>
-          <div class="form-horizontal">
+          <legend>Confirm Registration</legend>
+        <div class="row">
+          <div class="span6">
             <div class="control-group">
-              <label for="company" class="control-label">Company</label>
-              <div class="controls">
+              <label class="control-label">Company</label>
+              <div>
                 <%=doc.contact.company%>
               </div>
             </div>
             <div class="control-group">
-              <label for="contact" class="control-label">Contact</label>
-              <div class="controls">
+              <label class="control-label">Contact</label>
+              <div>
                 <%=doc.contact.contact%>
               </div>
             </div>
             <div class="control-group">
-              <label for="street" class="control-label">Street</label>
-              <div class="controls ">
+              <label class="control-label">Street</label>
+              <div class="">
                 <%=doc.contact.street%>
               </div>
             </div>
             <div class="control-group">
-              <label for="city" class="control-label">City</label>
-              <div class="controls">
+              <label class="control-label">City</label>
+              <div>
                 <%=doc.contact.city%>
               </div>
             </div>
             <div class="control-group">
-              <label for="state" class="control-label">State</label>
-              <div class="controls">
+              <label class="control-label">State</label>
+              <div>
                 <%=doc.contact.state%>
               </div>
             </div>
             <div class="control-group">
-              <label for="zip" class="control-label">Zip</label>
-              <div class="controls">
+              <label class="control-label">Zip</label>
+              <div>
                 <%=doc.contact.zip%>
               </div>
             </div>
             <div class="control-group">
-              <label for="phone" class="control-label">Phone</label>
-              <div class="controls">
+              <label class="control-label">Phone</label>
+              <div>
                 <%=doc.contact.phone%>
               </div>
             </div>
             <div class="control-group">
-              <label for="fax" class="control-label">Fax</label>
-              <div class="controls">
+              <label class="control-label">Fax</label>
+              <div>
                 <%=doc.contact.fax%>
               </div>
             </div>
             <div class="control-group">
-              <label for="email" class="control-label">Email</label>
-              <div class="controls">
+              <label class="control-label">Email</label>
+              <div>
                 <%=doc.contact.email%>
               </div>
             </div>
+          </div>
+          <div class="span6">
             <div class="control-group sponsorships">
               <a id="sponsor"></a><label class="control-label">Sponsorship</label>
-              <div class="controls">
+              <div>
                 <%=sponsorship.description%>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">Extra Seats</label>
-              <div class="controls">
-                <%=extraSeats%>
+              <div>
+                $<%=extraSeats%>
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">Donation</label>
-              <div class="controls">
-                <%=donation%>
+              <div>
+                $<%=donation%>
               </div>
             </div>
             <div class="control-group">
-              <label for="seating" class="control-label">Seating Location</label>
-              <div class="controls">
+              <label class="control-label">Seating Location</label>
+              <div>
                 <%=doc.order.seating%>
               </div>
             </div>
             <div class="control-group">
-              <div class="controls">
-                <label for="myoTaxCreditInfo"><%=doc.order.companyMatch ? 'YES' : 'NO'%> - Send me information about Missouri Youth Opportunity Tax Credits</label>
+              <div>
+                <label>Send me information about Missouri Youth Opportunity Tax Credits</label>
+                <div><%=doc.order.myoTaxCredit ? 'YES' : 'NO'%></div>
               </div>
             </div>
             <div class="control-group">
-              <div class="controls">
-                <label for="companyMatch"><strong><%=doc.order.companyMatch ? 'YES' : 'NO'%></strong> - My company will match my contribution.</label>
+              <div>
+                <label>My company will match my contribution.</label>
+                <div><%=doc.order.companyMatch ? 'YES' : 'NO'%></div>
               </div>
             </div>
             <div class="control-group">
-              <label for="boardMember" class="control-label">Board / Committee Member</label>
-              <div class="controls">
+              <label class="control-label">Board / Committee Member</label>
+              <div>
                   <%=doc.order.boardMember%>
               </div>
             </div>
             <div class="control-group">
-              <div class="controls">
-                  <button type="button" class="btn btn-large">Pay with Check By Mail</button>
-                  <button type="button" class="btn btn-large">Pay with PayPal</button>
+              <label class="control-label">Order Total</label>
+              <div>
+                  $<%=amount%>
               </div>
             </div>
-            <div id="error" class="hide alert alert-error">
-            </div>
+          </div>
+        </div>
+        <p>&nbsp;</p>
+        <div class="row">
+           <label>How would you like to pay?</label>
+            <p>
+              <label><input type="radio" id="paymentOptionPayPal" name="paymentOption" value="paypal" checked/><img src="/img/paypal.gif" border="0" alt="PayPal"/>.</label>
+              <br/><label><input type="radio" id="paymentOptionCheck" name="paymentOption" value="check"/> Check by Mail</label>
+            </p>
+            <p><button type="submit" class="btn btn-large btn-default">Continue</button></p>
+        </div>
+        <div class="row">
+          <div id="error" class="hide alert alert-error"></div>
+        </div>
+
       </fieldset>
   </form>
 <% include footer.html %>

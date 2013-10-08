@@ -7,8 +7,11 @@
   <form id="registrationForm" method="POST" action="/register/finish">
     <input type="hidden" id="registrationId" name="registrationId" value="<%=id%>"/>
     <p><strong>Almost done!</strong></p>
-    <p>To complete your registration, please click "Complete Purchase". Your order total is: <strong>$<%=amount%></strong>. </p>
-    <button type="submit" class="btn btn-large btn-primary">Complete Purchase</button>
+    <p>Sponsorship: <%=sponsorship.description%>
+    <br/>Extra Seats: $<%=extraSeats%>
+    <br/>Donation: $<%=donation%>
+    <br/>Order Total: $<%=amount%></p>
+    <button type="submit" class="btn btn-large">Complete Purchase</button>
   </form>
 <% include footer.html %>
 <% include scripts.html %>

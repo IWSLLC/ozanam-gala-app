@@ -7,6 +7,18 @@ var url = require('url')
 
 module.exports = function (app, auth) {
   app.get('/register/thankyou', function(req, res) {
+    reg.findById(req.query.confirm, function(err,doc) {
+      var model = vm.new();
+      model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
+      model.id = doc._id.toHexString()
+      model.amount = number.formatMoney(doc.order.total)
+      model.sponsorship = reg.getSponsorshipInfo(doc.order.level) || {amount: 0.0, description : 'Extra Seats Only', level: 10}
+      model.donation = number.formatMoney(doc.order.donation)
+      model.extraSeats = number.formatMoney(reg.getExtraSeatsAmount(doc.order.extraSeats))
+      model.doc = doc
+      model.problem = req.query.problem || 0
+      return res.render('thankyou.html', model)
+    })
   })
 
   //-----REGISTRATION-----
@@ -19,14 +31,52 @@ module.exports = function (app, auth) {
 
   app.get('/register/confirm', function(req,res) {
     reg.findById(req.query.confirm, function(err,doc) {
+      if (err || !doc) {
+        console.log(err || 'doc is not found: ' + req.query.confirm)
+        return res.redirect('/problem');
+      }
+
+      if (doc.confirmed)
+        return res.redirect('/register')
+
       var model = vm.new();
       model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
       model.id = doc._id.toHexString()
       model.amount = number.formatMoney(doc.order.total)
-      model.sponsorship = reg.getSponsorshipInfo() || {amount: 0.0, description : 'Extra Seats Only', level: 10}
+      model.sponsorship = reg.getSponsorshipInfo(doc.order.level) || {amount: 0.0, description : 'Extra Seats Only', level: 10}
       model.donation = number.formatMoney(doc.order.donation)
-      model.extraSeats = number.formatMoney(reg.getExtraSeatsAmount())
+      model.extraSeats = number.formatMoney(reg.getExtraSeatsAmount(doc.order.extraSeats))
+      model.doc = doc
       return res.render('confirm.html', model)
+    })
+  })
+
+  app.post('/register/confirm', function(req,res) {
+    reg.findById(req.body.confirmation, function(err,doc) {
+      if (err || !doc) {
+        console.log(err || 'doc not found: ' + req.body.confirmation)
+        return res.redirect('/problem')
+      }
+
+      if (req.body.paymentOption == 'paypal') {
+        pay.start(doc, function(err,redir) {
+          if (err) { 
+            console.log(err)
+            //can't checkout with paypal, but we registerd the guest. 
+            //show them the mail your check thanks page. 
+            reg.setCancelPaymentById(doc._id, function(err,count) {
+              return res.redirect('/register/thankyou?problem=1&confirm=' + doc._id.toHexString())
+            })
+          }
+          else {
+            return res.redirect(redir)
+          }
+        })
+      }
+      else {
+        reg.setConfirmation(doc._id)
+        return res.redirect('/register/thankyou?confirm=' + doc._id.toHexString())
+      }
     })
   })
 
@@ -34,7 +84,13 @@ module.exports = function (app, auth) {
     reg.setPayerId(req.query.token, req.query.PayerID, function(err,record) {
       if (err) {
         if (record) {
-          return res.redirect('/register/thankyou?problem=1&confirm=' + record._id.toHexString())
+          if (!record.confirmed) {
+            reg.setConfirmation(record._id)
+            reg.setCancelPaymentById(doc._id, function(err,count) {
+              return res.redirect('/register/thankyou?problem=1&confirm=' + record._id.toHexString())
+            })
+          }
+          return res.redirect('/register/thankyou?confirm=' + record._id.toHexString())
         }
         else
         {
@@ -47,44 +103,32 @@ module.exports = function (app, auth) {
       var model = vm.new()
       model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
       model.amount = number.formatMoney(record.order.total)
+      model.sponsorship = reg.getSponsorshipInfo(record.order.level) || {amount: 0.0, description : 'Extra Seats Only', level: 10}
+      model.donation = number.formatMoney(record.order.donation)
+      model.extraSeats = number.formatMoney(reg.getExtraSeatsAmount(record.order.extraSeats))
       model.id = record._id.toHexString()
       return res.render('finish.html', model)
     })
   })
 
   app.post('/register/finish', function(req,res) {
-    debugger;
     pay.finish(req.body.registrationId, function(err,record) {
-      debugger;
       if (err) {
         console.log(err);
         if (record) {
-          return res.redirect('/register/thankyou?problem=1&confirm=' + record._id.toHexString())
+          if (!record.confirmed) {
+            reg.setConfirmation(record._id)
+            reg.setCancelPaymentById(doc._id, function(err,count) {
+              return res.redirect('/register/thankyou?problem=1&confirm=' + record._id.toHexString())
+            })
+          }
+          return res.redirect('/register/thankyou?confirm=' + record._id.toHexString())
         }
-        else
-        {
-          res.redirect('/problem')
-          return
-        }
+        return res.redirect('/problem')
       }
 
+      reg.setConfirmation(record._id)
       return res.redirect('/register/thankyou?confirm=' + record._id.toHexString())
-    })
-  })
-
-  app.get('/register/cancel', function(req,res) {
-    reg.setCancelPayment(req.query.token, function(err,record) {
-      if (err) {
-        console.log(err);
-        res.redirect('/problem')
-        return
-      }
-
-      var model = vm.new()
-      model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
-      model.amount = number.formatMoney(record.order.total)
-      model.id = record._id.toHexString()
-      res.render('cancel', model)
     })
   })
 
