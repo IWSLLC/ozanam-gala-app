@@ -23,7 +23,7 @@ module.exports = function (app, auth) {
       model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
       model.id = doc._id.toHexString()
       model.amount = number.formatMoney(doc.order.total)
-      model.sponsorship = reg.getSponsorshipAmount() + ' sponsor name...'
+      model.sponsorship = reg.getSponsorshipInfo() || {amount: 0.0, description : 'Extra Seats Only', level: 10}
       model.donation = number.formatMoney(doc.order.donation)
       model.extraSeats = number.formatMoney(reg.getExtraSeatsAmount())
       return res.render('confirm.html', model)
@@ -155,12 +155,7 @@ module.exports = function (app, auth) {
       }
 
       r._id = data._id
-      //if paypal checkout, start the process. 
-      if (r.order.paymentOption === 'paypal')
-      {
-      }
-      else
-        res.send(200, {success: true, payment: 'check', id : r._id.toHexString()})
+      res.send(200, {success: true, id : r._id.toHexString()})
     });
   })
 }
