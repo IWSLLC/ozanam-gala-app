@@ -7,15 +7,6 @@ var url = require('url')
 
 module.exports = function (app, auth) {
   app.get('/register/thankyou', function(req, res) {
-    reg.findById(req.query.confirm, function(err,doc) {
-      var model = vm.new();
-      model.title = 'Thankyou for registering! - 2013 Ozanam Holywood Holiday Gala'
-      model.id = doc._id.toHexString()
-      model.amount = number.formatMoney(doc.order.total)
-      model.payment = doc.order.paymentOption
-      model.problem = req.query.problem
-      return res.render('thankyou.html', model)
-    })
   })
 
   //-----REGISTRATION-----
@@ -24,6 +15,19 @@ module.exports = function (app, auth) {
     var model = vm.new()
     model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
     return res.render('register.html', model)
+  })
+
+  app.get('/register/confirm', function(req,res) {
+    reg.findById(req.query.confirm, function(err,doc) {
+      var model = vm.new();
+      model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
+      model.id = doc._id.toHexString()
+      model.amount = number.formatMoney(doc.order.total)
+      model.sponsorship = reg.getSponsorshipAmount() + ' sponsor name...'
+      model.donation = number.formatMoney(doc.order.donation)
+      model.extraSeats = number.formatMoney(reg.getExtraSeatsAmount())
+      return res.render('confirm.html', model)
+    })
   })
 
   app.get('/register/finish', function(req,res) {
@@ -126,38 +130,8 @@ module.exports = function (app, auth) {
 
     //TODO: later we can re-organize this and place the pricing into the db.
     r.order.total += r.order.donation
-    console.log('extra: ' + r.order.extraSeats * 150.0)
-    r.order.total += (r.order.extraSeats * 150.0)
-
-    switch(r.order.level) {
-      case 1:
-        r.order.total += 25000
-        break;
-      case 2:
-        r.order.total += 15000
-        break;
-      case 3:
-        r.order.total += 10000
-        break;
-      case 4:
-        r.order.total += 5000
-        break;
-      case 5:
-        r.order.total += 3000
-        break;
-      case 6:
-        r.order.total += 2000
-        break;
-      case 7:
-        r.order.total += 1500
-        break;
-      case 8:
-        r.order.total += 750
-        break;
-      case 9:
-        r.order.total += 450
-        break;
-    }
+    r.order.total += reg.getExtraSeatsAmount(r.order.extraSeats)
+    r.order.total += reg.getSponsorshipAmount(r.order.level)
 
     r.contact.company = post.company
     r.contact.contact = post.contact
@@ -177,28 +151,13 @@ module.exports = function (app, auth) {
     reg.insert(r, function(err,data) {
       if (err) {
         console.log(err);
-        return res.send(500, {success: false, message : 'Cannot register at this time.'})
+        return res.send(200, {success: false, broke : [], message : 'Unable register at this time. Please try again later.'})
       }
 
       r._id = data._id
       //if paypal checkout, start the process. 
       if (r.order.paymentOption === 'paypal')
       {
-        pay.start(r, function(err,redir) {
-          if (err) { 
-            console.log(err)
-            //can't checkout with paypal, but we registerd the guest. 
-            //show them the mail your check thanks page. 
-            return res.send(200, {
-              success: true,
-              payment: 'check',
-              message: 'Unfortunately, we are unable to start the PayPal payment at this time. Your registration is recorded, but we require that you send us a payment by check instead. We apologize for the inconvencience and thank you for your patience.', 
-              id : r._id.toHexString(), 
-            })
-          }
-          else
-            res.send(200, {success: true, payment: 'paypal', redirect: redir})
-        });
       }
       else
         res.send(200, {success: true, payment: 'check', id : r._id.toHexString()})

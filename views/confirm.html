@@ -1,0 +1,116 @@
+<% include header.html %>
+<div id="wrap">
+<div class="container content">
+  <!-- content start  -->
+<h2 class="blue">Registration</h2>
+  <form id="registrationForm" method="POST" action="/register/confirm">
+      <fieldset>
+          <legend>Corporate Sponsor Agreement</legend>
+          <div class="form-horizontal">
+            <div class="control-group">
+              <label for="company" class="control-label">Company</label>
+              <div class="controls">
+                <%=doc.contact.company%>
+              </div>
+            </div>
+            <div class="control-group">
+              <label for="contact" class="control-label">Contact</label>
+              <div class="controls">
+                <%=doc.contact.contact%>
+              </div>
+            </div>
+            <div class="control-group">
+              <label for="street" class="control-label">Street</label>
+              <div class="controls ">
+                <%=doc.contact.street%>
+              </div>
+            </div>
+            <div class="control-group">
+              <label for="city" class="control-label">City</label>
+              <div class="controls">
+                <%=doc.contact.city%>
+              </div>
+            </div>
+            <div class="control-group">
+              <label for="state" class="control-label">State</label>
+              <div class="controls">
+                <%=doc.contact.state%>
+              </div>
+            </div>
+            <div class="control-group">
+              <label for="zip" class="control-label">Zip</label>
+              <div class="controls">
+                <%=doc.contact.zip%>
+              </div>
+            </div>
+            <div class="control-group">
+              <label for="phone" class="control-label">Phone</label>
+              <div class="controls">
+                <%=doc.contact.phone%>
+              </div>
+            </div>
+            <div class="control-group">
+              <label for="fax" class="control-label">Fax</label>
+              <div class="controls">
+                <%=doc.contact.fax%>
+              </div>
+            </div>
+            <div class="control-group">
+              <label for="email" class="control-label">Email</label>
+              <div class="controls">
+                <%=doc.contact.email%>
+              </div>
+            </div>
+            <div class="control-group sponsorships">
+              <a id="sponsor"></a><label class="control-label">Sponsorship</label>
+              <div class="controls">
+                <%=sponsorship%>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Extra Seats</label>
+              <div class="controls">
+                <%=extraSeats%>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Donation</label>
+              <div class="controls">
+                <%=donation%>
+              </div>
+            </div>
+            <div class="control-group">
+              <label for="seating" class="control-label">Seating Location</label>
+              <div class="controls">
+                <%=doc.order.seating%>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="controls">
+                <label for="myoTaxCreditInfo"><%=doc.order.companyMatch ? 'YES' : 'NO'%> - Send me information about Missouri Youth Opportunity Tax Credits</label>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="controls">
+                <label for="companyMatch"><strong><%=doc.order.companyMatch ? 'YES' : 'NO'%></strong> - My company will match my contribution.</label>
+              </div>
+            </div>
+            <div class="control-group">
+              <label for="boardMember" class="control-label">Board / Committee Member</label>
+              <div class="controls">
+                  <%=doc.order.boardMember%>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="controls">
+                  <button type="button" class="btn btn-large">Pay with Check By Mail</button>
+                  <button type="button" class="btn btn-large">Pay with PayPal</button>
+              </div>
+            </div>
+            <div id="error" class="hide alert alert-error">
+            </div>
+      </fieldset>
+  </form>
+<% include footer.html %>
+<% include scripts.html %>
+<% include tail.html %>
