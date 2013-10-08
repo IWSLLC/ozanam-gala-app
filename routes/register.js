@@ -13,6 +13,7 @@ module.exports = function (app, auth) {
       model.id = doc._id.toHexString()
       model.amount = number.formatMoney(doc.order.total)
       model.payment = doc.order.paymentOption
+      model.problem = req.query.problem
       return res.render('thankyou.html', model)
     })
   })
@@ -29,7 +30,7 @@ module.exports = function (app, auth) {
     reg.setPayerId(req.query.token, req.query.PayerID, function(err,record) {
       if (err) {
         if (record) {
-          return res.redirect('/register/thankyou?confirm=' + record._id.toHexString() + '&amount=' + number.formatMoney(record.order.total))
+          return res.redirect('/register/thankyou?problem=1&confirm=' + record._id.toHexString())
         }
         else
         {
@@ -52,12 +53,12 @@ module.exports = function (app, auth) {
     pay.finish(req.body.registrationId, function(err,record) {
       debugger;
       if (err) {
+        console.log(err);
         if (record) {
-          return res.redirect('/register/thankyou?confirm=' + record._id.toHexString())
+          return res.redirect('/register/thankyou?problem=1&confirm=' + record._id.toHexString())
         }
         else
         {
-          console.log(err);
           res.redirect('/problem')
           return
         }
@@ -185,7 +186,7 @@ module.exports = function (app, auth) {
       {
         pay.start(r, function(err,redir) {
           if (err) { 
-            console.dir(err)
+            console.log(err)
             //can't checkout with paypal, but we registerd the guest. 
             //show them the mail your check thanks page. 
             return res.send(200, {
