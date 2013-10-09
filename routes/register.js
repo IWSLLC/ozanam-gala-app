@@ -6,6 +6,18 @@ var pay = require('../lib/payment')
 var url = require('url')
 
 module.exports = function (app, auth) {
+
+  var handleError = function(err, doc){
+    console.log(err);
+    if (doc) {
+      if (!doc.confirmed) {
+        return res.redirect('/register/confirm?problem=1&confirm=' + doc._id.toHexString())
+      }
+      return res.redirect('/register/thankyou?confirm=' + doc._id.toHexString())
+    }
+    return res.redirect('/problem')
+  }
+
   app.get('/register/thankyou', function(req, res) {
     reg.findById(req.query.confirm, function(err,doc) {
       var model = vm.new();
@@ -36,12 +48,13 @@ module.exports = function (app, auth) {
         return res.redirect('/problem');
       }
 
-      if (doc.confirmed)
+      if (doc.confirmed) //someone trying to browse data. kick back empty form
         return res.redirect('/register')
 
       var model = vm.new();
       model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
       model.id = doc._id.toHexString()
+      model.problem = req.query.problem || null
       model.amount = number.formatMoney(doc.order.total)
       model.sponsorship = reg.getSponsorshipInfo(doc.order.level) || {amount: 0.0, description : 'Extra Seats Only', level: 10}
       model.donation = number.formatMoney(doc.order.donation)
@@ -60,17 +73,8 @@ module.exports = function (app, auth) {
 
       if (req.body.paymentOption == 'paypal') {
         pay.start(doc, function(err,redir) {
-          if (err) { 
-            console.log(err)
-            //can't checkout with paypal, but we registerd the guest. 
-            //show them the mail your check thanks page. 
-            reg.setCancelPaymentById(doc._id, function(err,count) {
-              return res.redirect('/register/thankyou?problem=1&confirm=' + doc._id.toHexString())
-            })
-          }
-          else {
-            return res.redirect(redir)
-          }
+          if (err) return handleError(err,doc)
+          return res.redirect(redir)
         })
       }
       else {
@@ -82,23 +86,7 @@ module.exports = function (app, auth) {
 
   app.get('/register/finish', function(req,res) {
     reg.setPayerId(req.query.token, req.query.PayerID, function(err,record) {
-      if (err) {
-        if (record) {
-          if (!record.confirmed) {
-            reg.setConfirmation(record._id)
-            reg.setCancelPaymentById(doc._id, function(err,count) {
-              return res.redirect('/register/thankyou?problem=1&confirm=' + record._id.toHexString())
-            })
-          }
-          return res.redirect('/register/thankyou?confirm=' + record._id.toHexString())
-        }
-        else
-        {
-          console.log(err);
-          res.redirect('/problem')
-          return
-        }
-      }
+      if (err) return handleError(err,record)
 
       var model = vm.new()
       model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
@@ -113,19 +101,7 @@ module.exports = function (app, auth) {
 
   app.post('/register/finish', function(req,res) {
     pay.finish(req.body.registrationId, function(err,record) {
-      if (err) {
-        console.log(err);
-        if (record) {
-          if (!record.confirmed) {
-            reg.setConfirmation(record._id)
-            reg.setCancelPaymentById(doc._id, function(err,count) {
-              return res.redirect('/register/thankyou?problem=1&confirm=' + record._id.toHexString())
-            })
-          }
-          return res.redirect('/register/thankyou?confirm=' + record._id.toHexString())
-        }
-        return res.redirect('/problem')
-      }
+      if (err) return handleError(err,record)
 
       reg.setConfirmation(record._id)
       return res.redirect('/register/thankyou?confirm=' + record._id.toHexString())

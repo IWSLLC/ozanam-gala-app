@@ -7,6 +7,11 @@
       <input type="hidden" name="confirmation" value="<%=id%>"/>
       <fieldset>
           <legend>Confirm Registration</legend>
+        <%if (problem) { %>
+        <div class="row">
+          <div id="error" class="alert alert-error">There was a problem processing your payment. You can try again, or you can choose to send us a check by mail. Thank you for your patience.</div>
+        </div>
+        <%}%>
         <div class="row">
           <div class="span6">
             <div class="control-group">
@@ -124,10 +129,12 @@
             </p>
             <p><button type="submit" class="btn btn-large btn-default">Continue</button></p>
         </div>
+        <%if (problem) { %>
         <div class="row">
-          <div id="error" class="hide alert alert-error"></div>
+          <div id="error" class="alert alert-error">There was a problem processing your payment. You can try again, or you can choose to send us a check by mail. Thank you for your patience.</div>
         </div>
-
+        <%}%>
+        
       </fieldset>
   </form>
 <% include footer.html %>
