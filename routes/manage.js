@@ -4,6 +4,7 @@ var vm = require('../lib/vm')
 var jsoncsv = require('json-csv');
 var moment = require('moment')
 var ocrypto = require('../lib/ocrypto')
+var number = require('../lib/number')
 
 module.exports = function (app, auth) {
 
@@ -60,20 +61,7 @@ module.exports = function (app, auth) {
                           name : 'order.level', 
                           label : 'level', 
                           filter : function(value) {
-                            switch(value) 
-                            {
-                              case 1 : return '$25,000+ Hollywood Star';
-                              case 2 : return 'Major Star ($15,000)';
-                              case 3 : return 'Star ($10,000)';
-                              case 4 : return 'Co-Star ($5,000)';
-                              case 5 : return 'Producer ($3,000)';
-                              case 6 : return 'Table Host ($25,000 +)';
-                              case 7 : return 'Underwriter ($15,000)';
-                              case 8 : return 'Supporting Cast ($10,000)';
-                              case 9 : return 'Corporate Sponsor ($5,000)';
-                              case 10 : return 'Extra Seats Only';
-                              default : return '';
-                            }
+                            return reg.getSponsorshipInfo(value).description
                           }
                         },
                         {name : 'order.extraSeats', label : 'extra seats'},
@@ -102,8 +90,14 @@ module.exports = function (app, auth) {
                   console.dir(err)
              })
           })
-        else
+        else {
+          for(var ix=0;ix<data.length;ix++) {
+            var i = data[ix];
+            i.sponsorship = reg.getSponsorshipInfo(i.order.level).description
+            i.total = number.formatMoney(i.order.total)
+          }
           res.send(200, {success : true, data : data})
+        }
       }
       else 
         res.send(500, {success : false, data : null, error : err})

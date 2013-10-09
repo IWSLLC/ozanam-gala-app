@@ -56,11 +56,11 @@
             mData: 'contact.phone',
             sTitle: 'Phone'
           }, {
-            mData: 'order.level',
-            sTitle: 'Level'
+            mData: 'sponsorship',
+            sTitle: 'Sponsorship'
           }, {
-            mData: 'order.extraSeats',
-            sTitle: 'Extra Seats'
+            mData: 'total',
+            sTitle: 'Total'
           }, {
             mData: 'order.dateRegistered',
             mRender: function ( data, type, full ) { return moment(data).format('YYYY-MM-DD h:mm a'); },
