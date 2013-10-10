@@ -46,7 +46,7 @@ module.exports = function (app, auth) {
         success : false,
         broke : broke
       }
-      res.send(200, model)
+      res.json(model)
       return
     }
 
@@ -79,7 +79,7 @@ module.exports = function (app, auth) {
         res.redirect('/problem')
       }
       else {
-        res.send(200, {success: true, id : data._id.toHexString()})
+        res.json({success: true, id : data._id.toHexString()})
       }
     });
   })

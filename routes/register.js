@@ -144,7 +144,7 @@ module.exports = function (app, auth) {
         success : false,
         broke : broke
       }
-      res.send(200, model)
+      res.json(model)
       return
     }
 
@@ -171,11 +171,11 @@ module.exports = function (app, auth) {
     reg.insert(r, function(err,data) {
       if (err) {
         console.log(err);
-        return res.send(200, {success: false, broke : [], message : 'Unable register at this time. Please try again later.'})
+        return res.json(200, {success: false, broke : [], message : 'Unable register at this time. Please try again later.'})
       }
 
       r._id = data._id
-      res.send(200, {success: true, id : r._id.toHexString()})
+      res.json({success: true, id : r._id.toHexString()})
     });
   })
 }
