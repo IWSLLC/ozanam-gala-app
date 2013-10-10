@@ -46,7 +46,7 @@
                 field = json.broke[ix];
                 $field = $form.find('#' + field.field);
                 if ($field) {
-                  $field.addClass('error');
+                  $field.closest('.control-group').addClass('error');
                 }
                 console.log(json.broke[ix].field);
               });

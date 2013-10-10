@@ -37,8 +37,6 @@ module.exports = function (app, auth) {
       broke.push({fdield: 'zip', message: 'required'})
     if (!((post.phone || '').trim()))
       broke.push({field: 'phone', message: 'required'})
-    if (!((post.email || '').trim()))
-      broke.push({field: 'email', message: 'required'})
     if (!((post.itemDescription || '').trim()))
       broke.push({field: 'itemDescription', message: 'required'})
 
