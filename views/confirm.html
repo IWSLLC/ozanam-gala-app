@@ -124,8 +124,8 @@
         <div class="row">
            <label>How would you like to pay?</label>
             <p>
-              <label><input type="radio" id="paymentOptionPayPal" name="paymentOption" value="paypal" checked/><img src="/img/paypal.gif" border="0" alt="PayPal"/>.</label>
-              <br/><label><input type="radio" id="paymentOptionCheck" name="paymentOption" value="check"/> Check by Mail</label>
+              <label><input type="radio" id="paymentOptionPayPal" name="paymentOption" value="paypal" <%=nopaypal ? ' disabled' : ' checked'%>/><img src="/img/paypal.gif" border="0" alt="PayPal"/>.</label><% if (nopaypal){%> <small>Your total exceeds $10,000 PayPal limit.</small><%}%>
+              <br/><label><input type="radio" id="paymentOptionCheck" name="paymentOption" value="check" <%=nopaypal ? ' checked' : ''%>/> Check by Mail</label>
             </p>
             <p><button type="submit" class="btn btn-large btn-default">Continue</button></p>
         </div>

@@ -62,6 +62,7 @@ module.exports = function (app, auth) {
       model.id = doc._id.toHexString()
       model.problem = req.query.problem || null
       model.amount = number.formatMoney(doc.order.total)
+      model.nopaypal = doc.order.total > 10000
       model.sponsorship = reg.getSponsorshipInfo(doc.order.level) || {amount: 0.0, description : 'Extra Seats Only', level: 10}
       model.donation = number.formatMoney(doc.order.donation)
       model.extraSeats = number.formatMoney(reg.getExtraSeatsAmount(doc.order.extraSeats))
