@@ -7,7 +7,7 @@ var url = require('url')
 
 module.exports = function (app, auth) {
 
-  var handleError = function(err, doc){
+  var handleError = function(err, doc, res){
     console.log(err);
     if (doc) {
       if (!doc.confirmed) {
@@ -85,7 +85,7 @@ module.exports = function (app, auth) {
 
       if (req.body.paymentOption == 'paypal') {
         pay.start(doc, function(err,redir) {
-          if (err) return handleError(err,doc)
+          if (err) return handleError(err,doc,res)
           return res.redirect(redir)
         })
       }
@@ -97,8 +97,11 @@ module.exports = function (app, auth) {
   })
 
   app.get('/register/finish', function(req,res) {
+    if (!req.query.token || !req.query.PayerID)
+      return res.redirect('/register')
+    
     reg.setPayerId(req.query.token, req.query.PayerID, function(err,record) {
-      if (err) return handleError(err,record)
+      if (err) return handleError(err,record,res)
 
       var model = vm.new()
       model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
@@ -113,7 +116,7 @@ module.exports = function (app, auth) {
 
   app.post('/register/finish', function(req,res) {
     pay.finish(req.body.registrationId, function(err,record) {
-      if (err) return handleError(err,record)
+      if (err) return handleError(err,record,res)
 
       reg.setConfirmation(record._id)
       return res.redirect('/register/thankyou?confirm=' + record._id.toHexString())
