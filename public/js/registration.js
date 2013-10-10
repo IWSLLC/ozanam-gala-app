@@ -37,8 +37,7 @@
               if (req.responseJSON && req.responseJSON.message) {
                 var $err;
                 $err = $('#error');
-                $err.text(req.responseJSON.message);
-                $err.show()
+                $err.text(req.responseJSON.message).show();
               }
             },
             success: function(json) {
