@@ -66,8 +66,8 @@ module.exports = function (app, auth) {
                         },
                         {name : 'order.extraSeats', label : 'extra seats'},
                         {name : 'order.donation', label : 'Donation'},
-                        {name : 'order.myoTaxCredit', label : 'myo tax credit', filter: function(value) { return value ? 'Yes' : 'No'}},
-                        {name : 'order.companyMatch', label : 'company match', filter: function(value) { return value ? 'Yes' : 'No'}},
+                        {name : 'order.myoTaxCredit', label : 'myo tax credit', filter: function(value) { return value === true ? 'Yes' : 'No'}},
+                        {name : 'order.companyMatch', label : 'company match', filter: function(value) { return value === true ? 'Yes' : 'No'}},
                         {name : 'order.boardMember', label : 'referred by board member'},
                         {name : 'order.seating', label : 'seating preference'},
                         {name : 'order.total', label : 'TOTAL'},
@@ -92,6 +92,7 @@ module.exports = function (app, auth) {
         else {
           for(var ix=0;ix<data.length;ix++) {
             var i = data[ix];
+            debugger;
             i.sponsorship = reg.getSponsorshipInfo(i.order.level).description
             i.total = number.formatMoney(i.order.total)
           }
@@ -137,16 +138,16 @@ module.exports = function (app, auth) {
                         {name : 'item.description', label : 'description'},
                         {name : 'item.value', label : 'value'},
                         {name : 'item.restrictions', label : 'restrictions'},
-                        {name : 'item.optionSelfDelivery', label : 'self delivery', filter: function(value) { return value ? 'Yes' : 'No'}},
+                        {name : 'item.optionSelfDelivery', label : 'self delivery', filter: function(value) { return value === true ? 'Yes' : 'No'}},
                         {name : 'item.selfDeliveryDate', label : 'delivery date (if self delivery)'},
-                        {name : 'item.optionPickup', label : 'pickup', filter: function(value) { return value ? 'Yes' : 'No'}},
-                        {name : 'item.optionPrepareCertificate', label : 'prepare certificate', filter: function(value) { return value ? 'Yes' : 'No'}},
-                        {name : 'item.optionDisplayMaterials', label : 'display materials', filter: function(value) { return value ? 'Yes' : 'No'}},
+                        {name : 'item.optionPickup', label : 'pickup', filter: function(value) { return value === true ? 'Yes' : 'No'}},
+                        {name : 'item.optionPrepareCertificate', label : 'prepare certificate', filter: function(value) { return value === true ? 'Yes' : 'No'}},
+                        {name : 'item.optionDisplayMaterials', label : 'display materials', filter: function(value) { return value === true ? 'Yes' : 'No'}},
                         ]
             }, 
             function(err,csv) {
               var now = moment()
-              res.attachment('gala-donations-' + now.format('YYYY-MM-DD-HHmmss') + '.csv')
+              res.attachment('gala-auction-items-' + now.format('YYYY-MM-DD-HHmmss') + '.csv')
               res.send(csv)
               //flag these as downloaded. 
               var ids = []

@@ -6,6 +6,7 @@
       if ($('#showDownloaded').is(':checked'))
         extra = 'downloaded=1'
       var url ='/manage/api/registrations/' + $('#year option:selected').val() + '?csv=1&' + extra;
+      setTimeout(function() { reload(); }, 1000)
       window.location = url;
     });
 
