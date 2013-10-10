@@ -9,13 +9,15 @@
 <p>We apologize for the inconvenience, but our PayPal checkout failed to complete successfully. We still have your registration, but we will need you to mail us a check for the total shown below.</p>
 <%}%>
 
-<p>We will contact you soon to confirm your sponsorship. Your confirmation code is: </p>
-<p class="monotype"><%=id.toUpperCase()%></p>
+<p>You will receive a letter acknowledging your reservation soon. Please print this page for your records. We appreciate your support!</p>
+
+<p>Your confirmation code is: <br/><span class="monotype"><%=id.toUpperCase()%></span></p>
+
 
 <%if(doc.order.paymentOption === 'check' || problem === 1) {%>
 <p>Please mail a check for the amount of <span class="monotype">$<%=amount%></span> payable to:
 <address>
-  <strong>Ozanam</strong><br>
+  <strong>Ozanam’s Hollywood Holiday Gala</strong><br>
   421 E 137th Street<br>
   Kansas City, MO 64145<br>
 </address>
@@ -23,8 +25,9 @@
 <%}%>
 <p>Please share this event with your friends and colleagues.</p>
 
+<%if (doc.order.paymentOption === 'paypal') {%>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
+<%}%>
 <% include footer.html %>
 <% include scripts.html %>
 <% include tail.html %>

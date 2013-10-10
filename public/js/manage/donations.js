@@ -48,6 +48,11 @@
         },
         aoColumns: [
           {
+            mData: '_id',
+            sTitle: 'Confirmation',
+            bVisible : false,
+            bSearchable : true
+          }, {
             mData: 'contact.donor',
             sTitle: 'Donor'
           }, {

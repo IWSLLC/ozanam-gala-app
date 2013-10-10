@@ -16,6 +16,7 @@ module.exports = function (app, auth) {
     model.title = 'Donate Auction Item - 2013 Ozanam Holywood Holiday Gala'
     return res.render('donate.html', model)
   })
+  
   app.post('/auction', function(req, res) { 
     ocrypto.httpsCheck(req,res)
     var post = req.body;

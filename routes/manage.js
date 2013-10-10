@@ -92,7 +92,6 @@ module.exports = function (app, auth) {
         else {
           for(var ix=0;ix<data.length;ix++) {
             var i = data[ix];
-            debugger;
             i.sponsorship = reg.getSponsorshipInfo(i.order.level).description
             i.total = number.formatMoney(i.order.total)
           }

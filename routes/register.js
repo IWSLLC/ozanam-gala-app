@@ -19,6 +19,9 @@ module.exports = function (app, auth) {
   }
 
   app.get('/register/thankyou', function(req, res) {
+    if (!req.query.confirm)
+      return res.redirect('/register')
+
     reg.findById(req.query.confirm, function(err,doc) {
       var model = vm.new();
       model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
@@ -42,14 +45,17 @@ module.exports = function (app, auth) {
   })
 
   app.get('/register/confirm', function(req,res) {
+    if (!req.query.confirm)
+      return res.redirect('/register')
+
     reg.findById(req.query.confirm, function(err,doc) {
       if (err || !doc) {
         console.log(err || 'doc is not found: ' + req.query.confirm)
         return res.redirect('/problem');
       }
 
-      if (doc.confirmed) //someone trying to browse data. kick back empty form
-        return res.redirect('/register')
+      if (doc.confirmed) 
+        return res.redirect('/register/thankyou?confirm=' + req.query.confirm)
 
       var model = vm.new();
       model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
@@ -65,11 +71,17 @@ module.exports = function (app, auth) {
   })
 
   app.post('/register/confirm', function(req,res) {
+    if (!req.body.confirmation)
+      return res.redirect('/register')
+
     reg.findById(req.body.confirmation, function(err,doc) {
       if (err || !doc) {
         console.log(err || 'doc not found: ' + req.body.confirmation)
         return res.redirect('/problem')
       }
+
+      if (doc.confirmed)
+        return res.redirect('/register/thankyou?confirm=' + doc._id.toHexString())
 
       if (req.body.paymentOption == 'paypal') {
         pay.start(doc, function(err,redir) {
