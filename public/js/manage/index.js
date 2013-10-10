@@ -65,6 +65,9 @@
             mData: 'sponsorship',
             sTitle: 'Sponsorship'
           }, {
+            mData: 'order.paymentOption',
+            sTitle: 'Payment'
+          }, {
             mData: 'total',
             sTitle: 'Total'
           }, {
