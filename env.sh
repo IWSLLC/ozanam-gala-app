@@ -2,7 +2,7 @@
 
 export PORT=3000
 export PORTSSL=8000
-export ENABLESSL=no
+export ENABLESSL=yes
 export SSL_HOSTNAME=localhost:8000
 export HOSTNAME=localhost:3000
 export NODE_ENV=development

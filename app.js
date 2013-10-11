@@ -54,7 +54,19 @@ serverHttp.listen(app.get('port'), function(){
 
 //HTTPS server
 if (process.env.ENABLESSL === 'yes') {
+  files = [
+    "DigiCertCA.crt",
+    "TrustedRoot.crt"
+  ]
+  var file, _i, _len, ca;
+  ca = []
+  for (_i = 0, _len = files.length; _i < _len; _i++) {
+    file = files[_i];
+    ca.push(fs.readFileSync("private/" + file));
+  }
+
   var options = {
+    ca: ca,
     key: fs.readFileSync('private/privatekey.pem'),
     cert: fs.readFileSync('private/certificate.pem')
   };
