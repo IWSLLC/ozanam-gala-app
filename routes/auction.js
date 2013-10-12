@@ -9,8 +9,8 @@ module.exports = function (app, auth) {
     var now = moment().utc().tz('America/Chicago').format('MMM D, YYYY h:mm:ss A');
 
     notify.send(
-      {subject: 'New Auction Item on the Gala Website: ' + now, 
-      body: 'New auction submission at ' + now +
+      {subject: 'New Auction Item from ' + doc.contact.contact + ' on ' + now, 
+      body: 'New auction submission from ' + doc.contact.contact + ' on ' + now +
         '\nConfirmation code: ' + doc._id.toHexString() + 
         '\n' + now },
       function(err,message) {

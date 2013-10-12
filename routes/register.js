@@ -24,8 +24,8 @@ module.exports = function (app, auth) {
     var now = moment().utc().tz('America/Chicago').format('MMM D, YYYY h:mm:ss A');
 
     notify.send(
-      {subject: 'New Registration on the Gala Website: ' + now, 
-      body: 'New registration submission at ' + now +
+      {subject: 'New Registration from ' + doc.contact.contact + ' on ' + now, 
+      body: 'New registration from ' + doc.contact.contact + ' on ' + now +
         '\nConfirmation code: ' + doc._id.toHexString() + 
         '\n' + now },
       function(err,message) {
