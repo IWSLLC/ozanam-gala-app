@@ -4,6 +4,8 @@ var ocrypto = require('../lib/ocrypto')
 var number = require('../lib/number')
 var pay = require('../lib/payment')
 var url = require('url')
+var moment = require('moment-timezone')
+var notify = require('../lib/notifications')
 
 module.exports = function (app, auth) {
 
@@ -16,6 +18,19 @@ module.exports = function (app, auth) {
       return res.redirect('/register/thankyou?confirm=' + doc._id.toHexString())
     }
     return res.redirect('/problem')
+  }
+
+  var sendNotification = function(doc) {
+    var now = moment().utc().tz('America/Chicago').format('MMM D, YYYY h:mm:ss A');
+
+    notify.send(
+      {subject: 'New Registration on the Gala Website: ' + now, 
+      body: 'New registration submission at ' + now +
+        '\nConfirmation code: ' + doc._id.toHexString() + 
+        '\n' + now },
+      function(err,message) {
+        if (err) console.log(err) //log and continue.
+      })
   }
 
   app.get('/register/thankyou', function(req, res) {
@@ -92,6 +107,7 @@ module.exports = function (app, auth) {
       }
       else {
         reg.setConfirmation(doc._id)
+        sendNotification(doc)
         return res.redirect('/register/thankyou?confirm=' + doc._id.toHexString())
       }
     })

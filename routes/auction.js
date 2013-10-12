@@ -1,9 +1,23 @@
 var vm = require('../lib/vm.js')
 var ocrypto = require('../lib/ocrypto')
-var moment = require('moment')
+var moment = require('moment-timezone')
 var reg = require('../lib/donations')
+var notify = require('../lib/notifications')
 
 module.exports = function (app, auth) {
+  var sendNotification = function(doc) {
+    var now = moment().utc().tz('America/Chicago').format('MMM D, YYYY h:mm:ss A');
+
+    notify.send(
+      {subject: 'New Auction Item on the Gala Website: ' + now, 
+      body: 'New auction submission at ' + now +
+        '\nConfirmation code: ' + doc._id.toHexString() + 
+        '\n' + now },
+      function(err,message) {
+        if (err) console.log(err) //log and continue.
+      })
+  }
+
   app.get('/auction/thankyou', function(req, res) {
     var model = vm.new();
     model.title = 'Thankyou for registering your donation! - 2013 Ozanam Holywood Holiday Gala'
@@ -78,6 +92,7 @@ module.exports = function (app, auth) {
         res.redirect('/problem')
       }
       else {
+        sendNotification(data)
         res.json({success: true, id : data._id.toHexString()})
       }
     });
