@@ -20,14 +20,14 @@ module.exports = function (app, auth) {
 
   app.get('/auction/thankyou', function(req, res) {
     var model = vm.new();
-    model.title = 'Thankyou for registering your donation! - 2013 Ozanam Holywood Holiday Gala'
+    model.title = 'Thankyou for registering your donation!'
     return res.render('donationThankyou.html', model)
   })
 
   app.get('/auction', function(req,res) {
     ocrypto.httpsCheck(req,res)
     var model = vm.new();
-    model.title = 'Donate Auction Item - 2013 Ozanam Holywood Holiday Gala'
+    model.title = 'Donate Auction Item'
     return res.render('donate.html', model)
   })
   
