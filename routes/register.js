@@ -39,7 +39,7 @@ module.exports = function (app, auth) {
 
     reg.findById(req.query.confirm, function(err,doc) {
       var model = vm.new();
-      model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
+      model.title = 'Registration'
       model.id = doc._id.toHexString()
       model.amount = number.formatMoney(doc.order.total)
       model.sponsorship = reg.getSponsorshipInfo(doc.order.level) || {amount: 0.0, description : 'Extra Seats Only', level: 10}
@@ -55,7 +55,7 @@ module.exports = function (app, auth) {
   app.get('/register', function(req, res) {
     ocrypto.httpsCheck(req,res)
     var model = vm.new()
-    model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
+    model.title = 'Registration'
     return res.render('register.html', model)
   })
 
@@ -73,7 +73,7 @@ module.exports = function (app, auth) {
         return res.redirect('/register/thankyou?confirm=' + req.query.confirm)
 
       var model = vm.new();
-      model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
+      model.title = 'Registration'
       model.id = doc._id.toHexString()
       model.problem = req.query.problem || null
       model.amount = number.formatMoney(doc.order.total)
@@ -121,7 +121,7 @@ module.exports = function (app, auth) {
       if (err) return handleError(err,record,res)
 
       var model = vm.new()
-      model.title = 'Registration - 2013 Ozanam Holywood Holiday Gala'
+      model.title = 'Registration'
       model.amount = number.formatMoney(record.order.total)
       model.sponsorship = reg.getSponsorshipInfo(record.order.level) || {amount: 0.0, description : 'Extra Seats Only', level: 10}
       model.donation = number.formatMoney(record.order.donation)

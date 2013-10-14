@@ -8,12 +8,12 @@ module.exports = function (app, auth) {
   })
   app.get('/history', function(req, res) {
     var model = vm.new();
-    model.title = 'Our History - Ozanam Home'
+    model.title = 'Our History'
     return res.render('history.html', model)
   })
   app.get('/sponsor', function(req, res) {
     var model = vm.new();
-    model.title = 'Sponsorships - 2013 Ozanam Holywood Holiday Gala'
+    model.title = 'Sponsorships'
     return res.render('sponsor.html', model)
   })
   app.get('/problem', function(req, res) {
