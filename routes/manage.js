@@ -71,7 +71,15 @@ module.exports = function (app, auth) {
                         {name : 'order.boardMember', label : 'referred by board member'},
                         {name : 'order.seating', label : 'seating preference'},
                         {name : 'order.total', label : 'TOTAL'},
-                        {name : 'order.paymentOption', label : 'payment option'}
+                        {name : 'order.paymentOption', label : 'payment option'},
+                        {name : 'order.payer', label : 'payer', filter: function(value) {
+                          if (value !== null) {
+                            return (value.first_name || '') + ' '
+                             + (value.last_name || '') + ' - '
+                             + (value.email || '')
+                          }
+                          return ''
+                        }}
                         ]
             }, 
             function(err,csv) {
