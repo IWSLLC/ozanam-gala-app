@@ -2,6 +2,7 @@ Thumbs.db
 env.*.sh
 .DS_Store
 private
+config.json
 node_modules
 start.sh
 setup.js
