@@ -20,7 +20,6 @@
     "moment": "*",
     "moment-timezone": "*",
     "json-csv": "*",
-    "paypal-rest-sdk": "*",
-    "emailjs": "*"
+    "paypal-rest-sdk": "*"
   }
 }
