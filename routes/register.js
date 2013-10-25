@@ -136,6 +136,8 @@ module.exports = function (app, auth) {
       if (err) return handleError(err,record,res)
 
       reg.setConfirmation(record._id)
+      sendNotification(record)
+
       return res.redirect('/register/thankyou?confirm=' + record._id.toHexString())
     })
   })
