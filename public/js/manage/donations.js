@@ -46,6 +46,7 @@
         oLanguage: {
           sEmptyTable: "No matching records found"
         },
+        aaSorting: [[ 5, "desc" ]],
         aoColumns: [
           {
             mData: '_id',
