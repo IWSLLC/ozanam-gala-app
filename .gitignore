@@ -1,5 +1,6 @@
 Thumbs.db
 env.*.sh
+.idea
 .DS_Store
 private
 config.json

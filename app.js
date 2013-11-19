@@ -1,5 +1,4 @@
 var express = require('express');
-var routes = require('./routes');
 var authentication = require('./lib/authentication')
 var https = require('https');
 var http = require('http');
