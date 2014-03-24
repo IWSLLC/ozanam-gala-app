@@ -1,0 +1,29 @@
+<div id="wrap">
+  <div class="container content">
+    <h2>Thank You!</h2>
+
+    {{#if problem}}
+    <p>We apologize for the inconvenience, but our PayPal checkout failed to complete successfully. We still have your registration, but we will need you to mail us a check for the total shown below.</p>
+    {{/if}}
+
+    <p>You will receive a letter acknowledging your reservation soon. Please print this page for your records. We appreciate your support!</p>
+
+    <p>Your confirmation code is: <br/><span class="monotype">{{id}}</span></p>
+
+
+    {{#if showCheck}}
+    <p>Please mail a check for the amount of <span class="monotype">${{amount}}</span> payable to:
+    <address>
+      <strong>Ozanam’s Hollywood Holiday Gala</strong><br>
+      421 E 137th Street<br>
+      Kansas City, MO 64145<br>
+    </address>
+    </p>
+    {{/if}}
+    <p>Please share this event with your friends and colleagues.</p>
+
+    {{#if showPaypal}}
+    <p>&nbsp;</p>
+    {{/if}}
+  </div>
+</div>

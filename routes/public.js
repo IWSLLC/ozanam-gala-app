@@ -1,25 +1,54 @@
-var vm = require('../lib/vm.js')
+var router = require('express').Router();
+var passport = require("passport")
 
-module.exports = function (app, auth) {
-  app.get('/', function(req, res) {
-    var model = vm.new();
-    model.title = 'Welcome to the 2013 Ozanam Hollywood Holiday Gala'
-    model.titlesuffix = false
-    return res.render('index.html', model)
-  })
-  app.get('/history', function(req, res) {
-    var model = vm.new();
-    model.title = 'Our History'
-    return res.render('history.html', model)
-  })
-  app.get('/sponsor', function(req, res) {
-    var model = vm.new();
-    model.title = 'Sponsorships'
-    return res.render('sponsor.html', model)
-  })
-  app.get('/problem', function(req, res) {
-    var model = vm.new();
-    model.title = 'Oops! Something happened!'
-    return res.render('problem.html', model)
-  })
-}
+//setup default view models.
+router.use(function(req,res,next) {
+  res.locals.title = "Ozanam Hollywood Holiday Gala";
+  res.locals.titlesuffix = false
+  res.locals.layout = "public";
+  next()
+})
+
+router.use(require("./auction"))
+router.use(require("./register"))
+
+router.get("/", function(req,res,next){ return res.render('index', {head_image_class : 'image-web2'})})
+router.get('/history', function(req,res,next) { res.render('history', {head_image_class : 'image-web4', title : 'Our History'})})
+router.get('/sponsor', function(req,res,next) { res.render('sponsor', {head_image_class : 'image-web3', title : 'Sponsorships'}) })
+router.get('/problem', function(req,res,next) { res.render('problem', {title : 'Oops! Something happened'})})
+
+/* GET home page. */
+router.get('/login', function(req, res) {
+  vm = {title : "Login"}
+  if (req.query.redirectTo)
+    vm.redirectTo = req.query.redirectTo
+  res.render('login', vm);
+});
+
+router.get('/logout', function(req,res,next) {
+  req.logout()
+  res.redirect("/")
+})
+
+router.post('/login', function(req, res, next) {
+  failDone = function(info) {
+    message = "Username or password is invalid."
+    if (info && info.message)
+      message = info.message
+    return res.render('login', { layout : 'public', message : message })
+  }
+  passport.authenticate('local', function(err,user,info) {
+    if (err) return next(err)
+    if (!user) return failDone(info)
+
+    redirectTo = req.body.redirectTo
+    if (!redirectTo) redirectTo = '/app'
+
+    req.login(user, function(err) {
+      if (err) return next(err)
+      return res.redirect(redirectTo)
+    })
+  })(req,res,next)
+});
+
+module.exports = router;
