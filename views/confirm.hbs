@@ -1,0 +1,139 @@
+<div id="wrap">
+  <div class="container content">
+    <h2 class="blue">Registration</h2>
+    <form method="POST" action="/register/confirm">
+      <input type="hidden" name="confirmation" value="{{id}}"/>
+      <fieldset>
+          <legend>Confirm Registration</legend>
+        {{#if problem}}
+        <div class="row">
+          <div id="error" class="alert alert-error">There was a problem processing your payment. You can try again, or you can choose to send us a check by mail. Thank you for your patience.</div>
+        </div>
+        {{/if}}
+        <div class="row">
+          <div class="span6">
+            <div class="control-group">
+              <label class="control-label">Company</label>
+              <div>
+                {{doc.contact.company}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Contact</label>
+              <div>
+                {{doc.contact.contact}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Street</label>
+              <div class="">
+                {{doc.contact.street}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">City</label>
+              <div>
+                {{doc.contact.city}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">State</label>
+              <div>
+                {{doc.contact.state}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Zip</label>
+              <div>
+                {{doc.contact.zip}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Phone</label>
+              <div>
+                {{doc.contact.phone}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Fax</label>
+              <div>
+                {{doc.contact.fax}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Email</label>
+              <div>
+                {{doc.contact.email}}
+              </div>
+            </div>
+          </div>
+          <div class="span6">
+            <div class="control-group sponsorships">
+              <a id="sponsor"></a><label class="control-label">Sponsorship</label>
+              <div>
+                {{sponsorship.description}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Extra Seats</label>
+              <div>
+                ${{extraSeats}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Donation</label>
+              <div>
+                ${{donation}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Seating Location</label>
+              <div>
+                {{doc.order.seating}}
+              </div>
+            </div>
+            <div class="control-group">
+              <div>
+                <label>Send me information about Missouri Youth Opportunity Tax Credits</label>
+                <div>{{yesNo doc.order.myoTaxCredit}}</div>
+              </div>
+            </div>
+            <div class="control-group">
+              <div>
+                <label>My company will match my contribution.</label>
+                <div>{{yesNo doc.order.companyMatch}}</div>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Board / Committee Member</label>
+              <div>
+                  {{doc.order.boardMember}}
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Order Total</label>
+              <div>
+                  ${{amount}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <p>&nbsp;</p>
+        <div class="row">
+           <label>How would you like to pay?</label>
+            <p>
+              <label><input type="radio" id="paymentOptionPayPal" name="paymentOption" value="paypal" {{nopaypal ? ' disabled' : ' checked'}}/><img src="/img/paypal.gif" border="0" alt="PayPal"/>.</label><% if (nopaypal){}} <small>Your total exceeds $10,000 PayPal limit.</small><%}}}
+              <br/><label><input type="radio" id="paymentOptionCheck" name="paymentOption" value="check" {{nopaypal ? ' checked' : ''}}/> Check by Mail</label>
+            </p>
+            <p><button type="submit" class="btn btn-large btn-default">Continue</button></p>
+        </div>
+        <%if (problem) { }}
+        <div class="row">
+          <div id="error" class="alert alert-error">There was a problem processing your payment. You can try again, or you can choose to send us a check by mail. Thank you for your patience.</div>
+        </div>
+        <%}}}
+
+      </fieldset>
+    </form>
+  </div>
+</div>

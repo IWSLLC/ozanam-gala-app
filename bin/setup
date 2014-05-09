@@ -1,0 +1,113 @@
+#!/usr/bin/env node
+
+var program  = require("commander")
+var accounts = require("../lib/collections/accounts")
+var states = require("../lib/collections/states")
+var loanTypes = require("../lib/collections/loan-types")
+var programs = require("../lib/collections/programs")
+var colors   = require("colors")
+var async    = require("async")
+var data     = require('./data')
+
+var finished = function(err) {
+  if (err) {
+    console.log (err.toString().red)
+    process.exit(1)
+  }
+
+  process.exit(0)
+}
+
+program
+  .version('0.0.1')
+
+program
+  .command('init')
+  .action(function() {
+    async.series([
+      function(cb) {
+        console.log("Removing all states")
+        states.remove({}, cb) //remove all states
+      },
+      function(cb) {
+        console.log("Adding all states")
+        async.map(data.states, function(state, next) {
+          states.insert(state, next)
+        }, cb)
+      }
+      ],function(err,results) {
+      console.log("Done.")
+      finished()
+    })
+  })
+
+program
+  .command('user [username]')
+  .description('create/modify users')
+  .option("-p, --password <password>", "Update password")
+  .option("-n, --name <name>", "Update name")
+  .option("-r, --remove", "Remove account")
+  .option("-d, --disable", "Disable account")
+  .option("-e, --enable", "Enable account")
+  .action(function(username, options){
+    console.log('looking up account %s...', username);
+
+    accounts.findByEmail(username, function(err,doc) {
+      if (err) return finished("Failed... %s", err.message)
+      if (!doc) {
+        if (options.remove) return finished("User not found.")
+        if (!options.password) return finished("Cannot create a new account without a password. Specify -p option.")
+        console.log("Creating account.")
+
+        var user = accounts.new()
+        user.email = username
+        if (options.name) user.name = options.name
+
+        user.setPassword(options.password, function(err) {
+          if (err) return finished(err.message)
+
+          accounts.insert(user, function(err, doc) {
+            if (err) return finished(err.message)
+            console.log("Done.  %s", doc._id.toString())
+            finished()
+          })
+        })
+      }
+      else {
+        if (options.remove) {
+          accounts.removeById(doc._id, function(err, affected) {
+            if (err) return finished(err)
+            console.log("Done. %d affected", affected)
+            finished()
+          })
+        }
+        else {
+          async.series([
+            function(cb) {
+              if (options.password)
+                doc.setPassword(options.password, cb)
+              else
+                cb()
+            },
+            function(cb) {
+              if (options.name) doc.name = options.name
+              if (options.enable) doc.disabled = false
+              if (options.disable) doc.disabled = true
+              //placeholder for the rest of the sync updates
+              cb()
+            }
+            ],function(err,results) {
+              if (err) return finished(err.message)
+
+              accounts.update({_id : doc._id}, {$set : {name : doc.name, password : doc.password}}, function(err, affected) {
+                if (err) return finished(err.message)
+                console.log("Done.  %d affected", affected)
+                finished()
+              })
+            })
+          }
+        }
+      })
+    })
+
+program.parse(process.argv);

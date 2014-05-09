@@ -1,25 +1,43 @@
 {
-  "name": "ozanam-gala-website",
-  "version": "0.1.2",
+  "name": "ozanam-gala",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
-    "start": "node app"
-  },
-  "engines": {
-    "node": "0.10.x",
-    "npm":  "1.2.x"
+    "postinstall": "./post-install.sh",
+    "start": "node ./bin/www",
+    "test": "mocha"
   },
   "dependencies": {
-    "express": "3",
-    "aws-sdk": "*",
-    "mocha": "*",
-    "should": "*",
-    "ejs": "*",
-    "crypto": "*",
-    "mongodb": "*",
-    "moment": "*",
-    "moment-timezone": "*",
-    "json-csv": "*",
-    "paypal-rest-sdk": "*"
-  }
+    "async": "^0.7.0",
+    "aws-sdk": "^2.0.0-rc.15",
+    "bcrypt": "^0.7.8",
+    "body-parser": "^1.0.2",
+    "bower": "^1.3.3",
+    "colors": "^0.6.2",
+    "commander": "^2.2.0",
+    "connect-redis": "^2.0.0",
+    "cookie-parser": "^1.0.1",
+    "debug": "~0.7.4",
+    "express": "^4.1.0",
+    "express-session": "^1.0.3",
+    "express3-handlebars": "^0.5.0",
+    "handlebars": "^2.0.0-alpha.2",
+    "jade": "~1.3.0",
+    "json-csv": "0.0.7",
+    "lodash": "^2.4.1",
+    "moment": "^2.6.0",
+    "moment-timezone": "0.0.6",
+    "mongodb": "^1.4.2",
+    "morgan": "~1.0.0",
+    "passport": "^0.2.0",
+    "passport-local": "^1.0.0",
+    "paypal-rest-sdk": "^0.9.0",
+    "redis": "^0.10.1",
+    "static-favicon": "^1.0.2"
+  },
+  "description": "Ozanam Gala Website",
+  "main": "src/app.js",
+  "devDependencies": {},
+  "author": "nathan@iws.io",
+  "license": "MIT"
 }

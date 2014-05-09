@@ -1,90 +1,99 @@
-var express = require('express');
-var authentication = require('./lib/authentication')
-var https = require('https');
-var http = require('http');
-var fs = require('fs');
-var path = require('path');
-var app = express();
-var paypal_sdk = require('paypal-rest-sdk')
+var express      = require('express');
+var path         = require('path');
+var favicon      = require('static-favicon');
+var logger       = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser   = require('body-parser');
+var passport     = require('passport')
+var url          = require('url')
+var redis        = require('redis')
+var auth         = require('./lib/authentication')
+var accounts     = require('./lib/collections/accounts')
+var session      = require("express-session")
+var app          = express();
+var RedisStore, redisUrl, sessionClient;
+var hbs          = require('./lib/hbs-setup')(app)
 
-app.configure('production', function() {
-  app.use(express.logger());
+
+//passport serialize and setup
+passport.use(auth.strategy());
+passport.serializeUser(function(user, done) {
+  return done(null, user._id.toString());
 });
-app.configure('development', function() {
-  app.use(express.logger('dev'));
-});
-
-app.configure(function() {
-  app.set('port', process.env.PORT || 3000);
-  app.set('portssl', process.env.PORTSSL || 8000);
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'html');
-  app.engine('html', require('ejs').__express);
-  app.use(express.favicon());
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.cookieParser('your secret here'));
-  app.use(express.session());
-  app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
-  app.use(express.errorHandler());
-});
-
-paypal_sdk.configure({
-  'host': process.env.PP_HOST,
-  'port': process.env.PP_PORT,
-  'client_id': process.env.PP_CLIENT_ID,
-  'client_secret': process.env.PP_CLIENT_SECRET
-});
-
-var auth = authentication.basicAuth(app);
-
-//load routes
-require('./routes/index')(app, auth);
-
-//HTTP server
-var serverHttp = http.createServer(app)
-serverHttp.on('error', function(err) {
-  console.error(err)
-})
-serverHttp.listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
-});
-
-//HTTPS server
-if (process.env.ENABLESSL === 'yes') {
-  files = [
-    "DigiCertCA.crt",
-    "TrustedRoot.crt"
-  ]
-  var file, _i, _len, ca;
-  ca = []
-  for (_i = 0, _len = files.length; _i < _len; _i++) {
-    file = files[_i];
-    ca.push(fs.readFileSync("private/" + file));
-  }
-
-  var options = {
-    ca: ca,
-    key: fs.readFileSync('private/privatekey.pem'),
-    cert: fs.readFileSync('private/certificate.pem')
-  };
-  
-  var serverSSL = https.createServer(options, app)
-  serverSSL.on('error', function(err) {
-    console.error(err)
-  })
-  serverSSL.listen(app.get('portssl'), function() {
-    console.log('Express server listening on port ' + app.get('portssl'));
+passport.deserializeUser(function(id, done) {
+  return accounts.findById(id, function(err, doc) {
+    if (err) return done(err);
+    if (!doc) return done(err, null);
+    return done(err, doc);
   });
+});
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.engine('.hbs', hbs.engine);
+app.set('view engine', 'hbs');
+
+app.use(favicon());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+
+//session setup
+app.use(cookieParser(process.env.SESSION_SECRET || 'hello cooooookie'));
+//use redis (if redis env setup)
+if (process.env.REDIS) {
+  RedisStore = require('connect-redis')(session);
+  redisUrl = url.parse(process.env.REDIS);
+  sessionClient = redis.createClient(redisUrl.port, redisUrl.hostname);
+  if (redisUrl.auth) {
+    sessionClient.auth(redisUrl.auth.split(":")[1]);
+  }
+  app.use(session({
+    store: new RedisStore({
+      client: sessionClient
+    })
+  }));
+} else {
+  app.use(session());
 }
-process.on('uncaughtException', function (err) {
-  console.error('uncaughtException:', err.message)
-  console.error(err.stack)
-  process.exit(1)})
 
-process.on('exit', function() {
-  console.log('closing db connections...')
-  require('./lib/sharedMongo').close()});
+//static files /public == /
+app.use(express.static(path.join(__dirname, 'public')));
 
+//Passport init
+app.use(passport.initialize())
+app.use(passport.session())
 
+//Handlebars templates to use client-side
+app.use(hbs.exposeTemplates)
+
+//public routes.
+app.use(require("./routes/public"))
+
+//app rendered routes
+// app.use('/manage', require("./routes/manage"))
+
+/// catch 404 and forwarding to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+/// error handlers
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    view = 'problem'
+    if (process.env.NODE_ENV === 'development' || (req.user && req.user.isAdmin))
+      view = 'error'
+    else
+      err = {}
+
+    res.render('error', {
+        message: err.message,
+        error: err,
+        layout : 'public'
+    });
+});
+
+module.exports = app;
