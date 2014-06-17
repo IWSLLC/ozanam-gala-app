@@ -16,3 +16,6 @@ export PP_CLIENT_ID=""
 export PP_CLIENT_SECRET=""
 export NOTIFICATION_EMAIL=""
 export OCRYPTO=pass
+export AWS_KEYID=""
+export AWS_SECRET=""
+export AWS_REGION="us-east-1"
