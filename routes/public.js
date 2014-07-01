@@ -6,6 +6,10 @@ router.use(function(req,res,next) {
   res.locals.title = "Ozanam Hollywood Holiday Gala";
   res.locals.titlesuffix = false
   res.locals.layout = "public";
+  res.locals.scripts = [
+    "/bower_components/jquery/dist/jquery.min.js"
+    ,"/bower_components/bootstrap/dist/js/bootstrap.min.js"
+  ]
   next()
 })
 
@@ -19,7 +23,13 @@ router.get('/problem', function(req,res,next) { res.render('problem', {title : '
 
 /* GET home page. */
 router.get('/login', function(req, res) {
-  vm = {title : "Login"}
+  vm = {
+    title : "Login"
+    ,layout : "login"
+  }
+  res.locals.scripts.push("/bower_components/jquery.validation/jquery.validate.js")
+  res.locals.scripts.push("/js/login.js")
+
   if (req.query.redirectTo)
     vm.redirectTo = req.query.redirectTo
   res.render('login', vm);
@@ -32,17 +42,20 @@ router.get('/logout', function(req,res,next) {
 
 router.post('/login', function(req, res, next) {
   failDone = function(info) {
+    res.locals.scripts.push("/bower_components/jquery.validation/jquery.validate.js")
+    res.locals.scripts.push("/js/login.js")
+
     message = "Username or password is invalid."
     if (info && info.message)
       message = info.message
-    return res.render('login', { layout : 'public', message : message })
+    return res.render('login', { layout : 'login', message : message, redirectTo : req.body.redirectTo })
   }
   passport.authenticate('local', function(err,user,info) {
     if (err) return next(err)
     if (!user) return failDone(info)
 
     redirectTo = req.body.redirectTo
-    if (!redirectTo) redirectTo = '/app'
+    if (!redirectTo) redirectTo = '/manage'
 
     req.login(user, function(err) {
       if (err) return next(err)

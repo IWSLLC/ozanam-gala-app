@@ -21,7 +21,7 @@
     $('#list').dataTable().fnDestroy();
     load();
   }
-  
+
   var load = function() {
 
     var extra = ''
@@ -35,54 +35,54 @@
         data = json.data;
 
       grid = $('#list').dataTable({
-        bAutoWidth: false,
-        sDom: '<\'row-fluid\'<\'span6\'l><\'span6\'f>r>t<\'row-fluid\'<\'span6\'i><\'span6\'p>',
-        sPaginationType: 'bootstrap',
-        bServerSide: false,
-        bProcessing: true,
-        fnDrawCallback: function() {
+        autoWidth: false,
+        // dom: '<\'row-fluid\'<\'span6\'l><\'span6\'f>r>t<\'row-fluid\'<\'span6\'i><\'span6\'p>',
+        // paginationType: 'bootstrap',
+        serverSide: false,
+        processing: true,
+        drawCallback: function() {
           return $('div.dataTables_filter input').focus();
         },
-        oLanguage: {
-          sEmptyTable: "No matching records found"
+        language: {
+          emptyTable: "No matching records found"
         },
-        aaSorting: [[ 7, "desc" ]],
-        aoColumns: [
+        sorting: [[ 7, "desc" ]],
+        columns: [
           {
-            mData: '_id',
-            sTitle: 'Confirmation',
-            bVisible : false,
-            bSearchable : true
+            data: '_id',
+            title: 'Confirmation',
+            visible : false,
+            searchable : true
           }, {
-            mData: 'contact.contact',
-            sTitle: 'Contact'
+            data: 'contact.contact',
+            title: 'Contact'
           }, {
-            mData: 'contact.email',
-            sTitle: 'Email'
+            data: 'contact.email',
+            title: 'Email'
           }, {
-            mData: 'contact.phone',
-            sTitle: 'Phone'
+            data: 'contact.phone',
+            title: 'Phone'
           }, {
-            mData: 'sponsorship',
-            sTitle: 'Sponsorship'
+            data: 'sponsorship',
+            title: 'Sponsorship'
           }, {
-            mData: 'order.paymentOption',
-            sTitle: 'Payment'
+            data: 'order.paymentOption',
+            title: 'Payment'
           }, {
-            mData: 'total',
-            sTitle: 'Total'
+            data: 'total',
+            title: 'Total'
           }, {
-            mData: 'order.dateRegistered',
-            mRender: function ( data, type, full ) { return moment(data).format('YYYY-MM-DD h:mm a'); },
-            sTitle: 'Registered'
+            data: 'order.dateRegistered',
+            render: function ( data, type, full ) { return moment(data).format('YYYY-MM-DD h:mm a'); },
+            title: 'Registered'
           }, {
-            mData: 'order.dateRegistered',
-            mRender: function ( data, type, full ) { return moment(data).fromNow(); },
-            sTitle: 'Age'
+            data: 'order.dateRegistered',
+            render: function ( data, type, full ) { return moment(data).fromNow(); },
+            title: 'Age'
           }
         ],
-        aaData : data
-      });  
+        data : data
+      });
     });
   }
 }).call(this);

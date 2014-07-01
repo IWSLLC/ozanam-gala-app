@@ -36,7 +36,7 @@ app.set('view engine', 'hbs');
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({extended: true}));
 
 //session setup
 app.use(cookieParser(process.env.SESSION_SECRET || 'hello cooooookie'));
@@ -71,7 +71,7 @@ app.use(hbs.exposeTemplates)
 app.use(require("./routes/public"))
 
 //app rendered routes
-// app.use('/manage', require("./routes/manage"))
+app.use('/manage', require("./routes/manage"))
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

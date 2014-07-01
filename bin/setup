@@ -2,12 +2,7 @@
 
 var program  = require("commander")
 var accounts = require("../lib/collections/accounts")
-var states = require("../lib/collections/states")
-var loanTypes = require("../lib/collections/loan-types")
-var programs = require("../lib/collections/programs")
-var colors   = require("colors")
 var async    = require("async")
-var data     = require('./data')
 
 var finished = function(err) {
   if (err) {
@@ -20,26 +15,6 @@ var finished = function(err) {
 
 program
   .version('0.0.1')
-
-program
-  .command('init')
-  .action(function() {
-    async.series([
-      function(cb) {
-        console.log("Removing all states")
-        states.remove({}, cb) //remove all states
-      },
-      function(cb) {
-        console.log("Adding all states")
-        async.map(data.states, function(state, next) {
-          states.insert(state, next)
-        }, cb)
-      }
-      ],function(err,results) {
-      console.log("Done.")
-      finished()
-    })
-  })
 
 program
   .command('user [username]')
