@@ -48,8 +48,6 @@ var postIndex = function(req,res,next) {
     return
   }
 
-  //convert to db record.
-
   var r = reg.new()
   r.contact.donor = post.name
   r.contact.company = post.company
@@ -85,17 +83,18 @@ var postIndex = function(req,res,next) {
 
 if (/yes/i.test(process.env.ENABLE_DONATION)) {
   router.get('/auction',function(req,res,next) {
-    return res.render('donate',
-    {
-      title : 'Donate Auction Item',
-      scripts : ['/js/donate.js','//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.11.1/jquery.validate.min.js','//cdnjs.cloudflare.com/ajax/libs/moment.js/2.1.0/moment.min.js','/lib/moment-datepicker.min.js']
-    })
+    res.locals.scripts.push('/bower_components/moment/min/moment.min.js')
+    res.locals.scripts.push('/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js')
+    res.locals.scripts.push('/bower_components/jquery.validation/dist/jquery.validate.min.js')
+    res.locals.scripts.push("/js/global-form.js")
+    res.locals.scripts.push("/js/auction.js")
+    return res.render('auction',{ title : 'Donate Auction Item',})
   })
   router.get('/auction/thankyou', function(req,res,next) { return res.render('donationThankyou', {title : 'Thankyou for registering your donation!'})})
   router.post('/auction', postIndex)
 }
 else
-  router.get('/auction',function(req,res,next) { return res.render('donate-disabled', { title : 'Donate Auction Item'})})
+  router.get('/auction',function(req,res,next) { return res.render('auction-disabled', { title : 'Donate Auction Item'})})
 
 
 module.exports = router

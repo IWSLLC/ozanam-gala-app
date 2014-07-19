@@ -5,13 +5,13 @@
     <h2 class="blue">Registration</h2>
     <h3>Payment Confirmation</h3>
     <form id="registrationForm" method="POST" action="/register/finish">
-      <input type="hidden" id="registrationId" name="registrationId" value="<%=id%>"/>
+      <input type="hidden" id="registrationId" name="registrationId" value="{{id}}"/>
       <p><strong>Almost done!</strong></p>
-      <p>Sponsorship: <%=sponsorship.description%>
-      <br/>Extra Seats: $<%=extraSeats%>
-      <br/>Donation: $<%=donation%>
-      <br/>Order Total: $<%=amount%></p>
-      <button type="submit" class="btn btn-large">Complete Purchase</button>
+      <p>Sponsorship: {{sponsorship.description}}
+      <br/>Extra Seats: ${{extraSeats}}
+      <br/>Donation: ${{donation}}
+      <br/>Order Total: ${{amount}}</p>
+      <button type="submit" class="btn btn-primary btn-large">Complete Purchase</button>
     </form>
   </div>
 </div>

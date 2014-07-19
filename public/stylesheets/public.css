@@ -1,9 +1,9 @@
 /*-----SITE-STYLES-----*/
 
-body {
+/*body {
   font: 20px/28px Georgia, "times new roman", times, serif;
 }
-
+*/
 .content {
   padding-bottom: 80px;
 }
@@ -38,11 +38,6 @@ fieldset {
    background: transparent url('../img/stars.gif') repeat;
 }
 
-input[type="radio"], input[type="checkbox"] {
-  margin-top: -4px;
-  margin-right: 5px;
-}
-
 div.help-block {
   background: transparent url('../img/uparrow.png') no-repeat left top;
   padding-left: 20px;
@@ -52,17 +47,10 @@ div.help-block {
   font-family: 'Open Sans Condensed', "Helvetica Neue", sans-serif;
   line-height: 20px;
 }
+
 body p.lead {
   font-size: 32px;
   line-height: 40px;
-}
-
-.content p {
-  margin-bottom: 30px;
-}
-.controls,.controls label {
-  font: 18px/28px "Open Sans Condensed", sans-serif;
-  font-weight: bold;
 }
 
 #sponsor li, #sponsor p {
@@ -72,34 +60,10 @@ body p.lead {
 
 .navbar a {
   text-transform: uppercase;
-  font: 20px/40px "Open Sans Condensed", sans-serif;
+  font: 20px/28px "Open Sans Condensed", sans-serif;
 }
 
-.navbar .nav > li > a {
-  text-shadow: none;
-}
-
-.navbar {
-  background-image: none;
-  background-color: #CE3745;
-  border-width: 5px 0;
-  border-top: 5px solid #dd6973;
-  border-radius: 0;
-  border-bottom: 5px solid #dd6973;
-}
-
-.navbar .brand {
-  font-weight: bold;
-  text-shadow: none;
-}
-
-.navbar .btn, .navbar .btn-group {
-  margin-top: 7px;
-  margin-bottom: 7px;
-}
-
-
-.controls,.controls label {
+.form-group label {
   font: 18px/28px "Open Sans Condensed", sans-serif;
   font-weight: bold;
 }
@@ -147,36 +111,12 @@ body p.lead {
   background: url('../img/oz-icons.png') no-repeat -88px 0px;
 }
 
-@media (min-width: 550px) {
-  .navbar-inner {
-    webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-  }
-}
-@media (max-width: 550px) {
-  .mobile-center {
-    text-align: center;
-  }
-}
-@media (max-width: 767px) {
-  body { padding: 0; }
-}
-@media (max-width: 990px) {
-  #wrap {
-  padding-right: 20px;
-  padding-left: 20px;
-  }
-}
-
 .sponsorships ul {
   list-style: none;
 }
 .sponsorships li {
   display: block;
 }
-.navbar { margin-bottom: 0;}
-
 
 .image-web1 {
   width: 100%;
@@ -204,4 +144,29 @@ body p.lead {
 }
 .monotype {
   font-family: consolas;
+}
+
+@media (min-width: 550px) {
+  .navbar-inner {
+    webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+  }
+}
+@media (max-width: 550px) {
+  .mobile-center {
+    text-align: center;
+  }
+}
+@media (max-width: 767px) {
+  body { padding: 0; }
+  .sponsorships ul {
+    padding-left : 0;
+  }
+}
+@media (max-width: 990px) {
+  #wrap {
+  padding-right: 20px;
+  padding-left: 20px;
+  }
 }

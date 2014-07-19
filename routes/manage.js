@@ -19,16 +19,18 @@ router.use(function(req,res,next) {
   res.locals.layout = "manage"
   res.locals.scripts = [
      "/bower_components/jquery/dist/jquery.min.js"
-    ,"/bower_components/bootstrap/dist/js/bootstrap.min.js"
+    ,"/bootstrap/js/bootstrap.min.js"
+    ,"/js/global.js"
     ,"/bower_components/moment/moment.js"
     ,"/bower_components/handlebars/handlebars.runtime.min.js"
   ]
   next()
 })
 
-router.get('/donations', function(req,res,next) {
-  res.locals.scripts.push("/js/manage/donations.js")
-  return res.render('manage/donations')
+router.get('/auctions', function(req,res,next) {
+  res.locals.scripts.push("/bower_components/datatables/media/js/jquery.dataTables.js")
+  res.locals.scripts.push("/js/manage/auctions.js")
+  return res.render('manage/auctions')
 })
 router.get('/', function(req,res,next) {
   res.locals.scripts.push("/bower_components/datatables/media/js/jquery.dataTables.js")

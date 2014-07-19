@@ -13,7 +13,12 @@ var session      = require("express-session")
 var app          = express();
 var RedisStore, redisUrl, sessionClient;
 var hbs          = require('./lib/hbs-setup')(app)
-
+var paypal_sdk = require('paypal-rest-sdk');
+paypal_sdk.configure({
+  'mode': process.env.NODE_ENV === 'production' ? 'live' : 'sandbox', 
+  'client_id': process.env.PP_CLIENT_ID,
+  'client_secret': process.env.PP_CLIENT_SECRET
+});
 
 //passport serialize and setup
 passport.use(auth.strategy());

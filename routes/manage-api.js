@@ -1,10 +1,11 @@
-var router = require('express').Router();
-var reg    = require("../lib/collections/registrations")
-var don    = require("../lib/collections/donations")
-var _      = require ("lodash")
-var number = require("../lib/number")
-var util   = require("util")
-var moment = require("moment")
+var router  = require('express').Router();
+var reg     = require("../lib/collections/registrations")
+var don     = require("../lib/collections/donations")
+var _       = require ("lodash")
+var number  = require("../lib/number")
+var util    = require("util")
+var moment  = require("moment")
+var jsoncsv = require("json-csv")
 
 var exportRegistrationToCsv = function(data, next) {
   jsoncsv.toCSV(
@@ -65,7 +66,7 @@ var exportDonationsToCsv = function(data,next) {
         {name : 'item.value', label : 'value'},
         {name : 'item.restrictions', label : 'restrictions'},
         {name : 'item.optionSelfDelivery', label : 'self delivery', filter: function(value) { return value === true ? 'Yes' : 'No'}},
-        {name : 'item.selfDeliveryDate', label : 'delivery date (if self delivery)'},
+        {name : 'item.selfDeliveryDate', label : 'delivery date (if self delivery)',filter : function(value) { return moment(value).format('M/D/YYYY')}},
         {name : 'item.optionPickup', label : 'pickup', filter: function(value) { return value === true ? 'Yes' : 'No'}},
         {name : 'item.optionPrepareCertificate', label : 'prepare certificate', filter: function(value) { return value === true ? 'Yes' : 'No'}},
         {name : 'item.optionDisplayMaterials', label : 'display materials', filter: function(value) { return value === true ? 'Yes' : 'No'}},
@@ -101,7 +102,6 @@ router.get('/registrations/:year', function(req,res,next) {
       })
     else {
       _.each(data, function(i) {
-        var i = data[ix];
         i.sponsorship = reg.getSponsorshipInfo(i.order.level).description
         i.total = number.formatMoney(i.order.total)
       })
@@ -111,7 +111,7 @@ router.get('/registrations/:year', function(req,res,next) {
   });
 })
 
-router.get('/donations/:year', function(req,res,next) {
+router.get('/auctions/:year', function(req,res,next) {
   var csv = req.query.csv ? true : false
   var downloaded = req.query.downloaded ? true : false
   var year = parseInt(req.param('year'))

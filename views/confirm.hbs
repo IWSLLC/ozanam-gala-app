@@ -6,130 +6,133 @@
       <fieldset>
           <legend>Confirm Registration</legend>
         {{#if problem}}
-        <div class="row">
-          <div id="error" class="alert alert-error">There was a problem processing your payment. You can try again, or you can choose to send us a check by mail. Thank you for your patience.</div>
+        <div class="alert alert-danger">
+          <div id="error">There was a problem processing your payment. You can try again, or you can choose to send us a check by mail. Thank you for your patience.</div>
         </div>
         {{/if}}
         <div class="row">
-          <div class="span6">
-            <div class="control-group">
-              <label class="control-label">Company</label>
+          <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+              <label>Company</label>
               <div>
                 {{doc.contact.company}}
               </div>
             </div>
-            <div class="control-group">
-              <label class="control-label">Contact</label>
+            <div class="form-group">
+              <label>Contact</label>
               <div>
                 {{doc.contact.contact}}
               </div>
             </div>
-            <div class="control-group">
-              <label class="control-label">Street</label>
+            <div class="form-group">
+              <label>Street</label>
               <div class="">
                 {{doc.contact.street}}
               </div>
             </div>
-            <div class="control-group">
-              <label class="control-label">City</label>
+            <div class="form-group">
+              <label>City</label>
               <div>
                 {{doc.contact.city}}
               </div>
             </div>
-            <div class="control-group">
-              <label class="control-label">State</label>
+            <div class="form-group">
+              <label>State</label>
               <div>
                 {{doc.contact.state}}
               </div>
             </div>
-            <div class="control-group">
-              <label class="control-label">Zip</label>
+            <div class="form-group">
+              <label>Zip</label>
               <div>
                 {{doc.contact.zip}}
               </div>
             </div>
-            <div class="control-group">
-              <label class="control-label">Phone</label>
+            <div class="form-group">
+              <label>Phone</label>
               <div>
                 {{doc.contact.phone}}
               </div>
             </div>
-            <div class="control-group">
-              <label class="control-label">Fax</label>
+            <div class="form-group">
+              <label>Fax</label>
               <div>
                 {{doc.contact.fax}}
               </div>
             </div>
-            <div class="control-group">
-              <label class="control-label">Email</label>
+            <div class="form-group">
+              <label>Email</label>
               <div>
                 {{doc.contact.email}}
               </div>
             </div>
           </div>
-          <div class="span6">
-            <div class="control-group sponsorships">
-              <a id="sponsor"></a><label class="control-label">Sponsorship</label>
+          <div class="col-xs-12 col-sm-6">
+            <div class="form-group sponsorships">
+              <a id="sponsor"></a><label>Sponsorship</label>
               <div>
                 {{sponsorship.description}}
               </div>
             </div>
-            <div class="control-group">
-              <label class="control-label">Extra Seats</label>
+            <div class="form-group">
+              <label>Extra Seats</label>
               <div>
                 ${{extraSeats}}
               </div>
             </div>
-            <div class="control-group">
-              <label class="control-label">Donation</label>
+            <div class="form-group">
+              <label>Donation</label>
               <div>
                 ${{donation}}
               </div>
             </div>
-            <div class="control-group">
-              <label class="control-label">Seating Location</label>
+            <div class="form-group">
+              <label>Seating Location</label>
               <div>
                 {{doc.order.seating}}
               </div>
             </div>
-            <div class="control-group">
+            <div class="form-group">
               <div>
                 <label>Send me information about Missouri Youth Opportunity Tax Credits</label>
                 <div>{{yesNo doc.order.myoTaxCredit}}</div>
               </div>
             </div>
-            <div class="control-group">
+            <div class="form-group">
               <div>
                 <label>My company will match my contribution.</label>
                 <div>{{yesNo doc.order.companyMatch}}</div>
               </div>
             </div>
-            <div class="control-group">
-              <label class="control-label">Board / Committee Member</label>
+            <div class="form-group">
+              <label>Board / Committee Member</label>
               <div>
                   {{doc.order.boardMember}}
               </div>
             </div>
-            <div class="control-group">
-              <label class="control-label">Order Total</label>
+            <div class="form-group">
+              <label>Order Total</label>
               <div>
                   ${{amount}}
               </div>
             </div>
           </div>
         </div>
-        <p>&nbsp;</p>
-        <div class="row">
-           <label>How would you like to pay?</label>
-            <p>
-              <label><input type="radio" id="paymentOptionPayPal" name="paymentOption" value="paypal" {{#if nopaypal}} disabled{{else}} checked{{/if}} /><img src="/img/paypal.gif" border="0" alt="PayPal"/>.</label>{{#if nopaypal}}<small>Your total exceeds $10,000 PayPal limit.</small>{{/if}}
-              <br/><label><input type="radio" id="paymentOptionCheck" name="paymentOption" value="check"  {{#if nopaypal}} checked{{/if}} /> Check by Mail</label>
-            </p>
-            <p><button type="submit" class="btn btn-large btn-default">Continue</button></p>
+        <div class="clearfix"></div>
+        <label>How would you like to pay?</label>
+        <div class="form-inline">
+          <div class="checkbox">
+            <label><input type="radio" id="paymentOptionPayPal" name="paymentOption" value="paypal" {{#if nopaypal}} disabled{{else}} checked{{/if}} /><img src="/img/paypal.gif" border="0" alt="PayPal"/>.</label>{{#if nopaypal}}<small>Your total exceeds $10,000 PayPal limit.</small>{{/if}}
+          </div>
+          <br/>
+          <div class="checkbox">
+            <label><input type="radio" id="paymentOptionCheck" name="paymentOption" value="check"  {{#if nopaypal}} checked{{/if}} /> Check by Mail</label>
+          </div>
         </div>
+        <p><button type="submit" class="btn btn-large btn-primary">Continue</button></p>
         {{#if problem}}
-        <div class="row">
-          <div id="error" class="alert alert-error">There was a problem processing your payment. You can try again, or you can choose to send us a check by mail. Thank you for your patience.</div>
+        <div class="alert alert-danger">
+          There was a problem processing your payment. You can try again, or you can choose to send us a check by mail. Thank you for your patience.
         </div>
         {{/if}}
 

@@ -204,12 +204,13 @@ var postRegister = function(req, res) {
 }
 
 if (/yes/i.test(process.env.ENABLE_REGISTRATION)) {
-  router.get('/register',function(req, res) {
-    return res.render('register',
-      {
-        title : 'Registration',
-        scripts : ['/js/registration.js','//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.11.1/jquery.validate.min.js','//cdnjs.cloudflare.com/ajax/libs/moment.js/2.1.0/moment.min.js','/lib/moment-datepicker.min.js']
-      })
+  router.get('/register',function(req, res, next) {
+    res.locals.scripts.push('/bower_components/moment/min/moment.min.js')
+    res.locals.scripts.push('/bower_components/moment-datepicker/moment-datepicker/moment-datepicker.min.js')
+    res.locals.scripts.push('/bower_components/jquery.validation/dist/jquery.validate.min.js')
+    res.locals.scripts.push('/js/global-form.js')
+    res.locals.scripts.push('/js/registration.js')
+    return res.render('register', {title : 'Registration'})
   })
   router.get('/register/thankyou', thankyou)
   router.get('/register/confirm', confirm)

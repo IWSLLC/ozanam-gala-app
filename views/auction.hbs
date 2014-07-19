@@ -1,0 +1,101 @@
+<div id="wrap">
+  <div class="container content">
+    <h2 class="blue">Donate an Auction Item</h2>
+    <form id="donateForm" method="POST" action="/auction">
+        <fieldset>
+          <legend>Auction Item Donation Form</legend>
+          <div class="form-group form-group-lg">
+            <label for="company">Donor Name</label>
+            <input type="text" name="name" id="name" placeholder="Donor Name" required class="form-control"/>
+            <div class="help-block muted">Please print name as you would like to be listed in the event program.</div>
+          </div>
+          <div class="form-group form-group-lg">
+            <label for="company">Company</label>
+            <input type="text" name="company" id="company" placeholder="Company Name" class="form-control"/>
+          </div>
+          <div class="form-group form-group-lg">
+            <label for="contact">Contact Person</label>
+            <input type="text" placeholder="Contact Person" name="contact" id="contact" required class="form-control"/>
+          </div>
+          <div class="form-group form-group-lg">
+            <label for="street">Street</label>
+            <input type="text" name="street" id="street" placeholder="Street Address" required class="form-control"/>
+          </div>
+          <div class="form-group form-group-lg row">
+            <div class="col-xs-12 col-sm-4">
+              <label for="city">City</label>
+              <input type="text" name="city" id="city" class="form-control" placeholder="City" required/>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+              <label for="state">State</label>
+              <input type="text" name="state" id="state" class="form-control" placeholder="State" required/>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+              <label for="zip">Zip</label>
+              <input type="text" name="zip" id="zip" placeholder="Zip" class="form-control" required/>
+            </div>
+          </div>
+          <div class="form-group form-group-lg row">
+            <div class="col-xs-12 col-sm-6">
+              <label for="phone">Phone</label>
+              <input type="tel" name="phone" id="phone" placeholder="Phone" required class="form-control"/>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+              <label for="email">Email</label>
+              <input type="email" name="email" id="email" placeholder="Email" class="form-control"/>
+            </div>
+          </div>
+          <div class="row container">
+            <div class="form-group form-group-lg">
+              <label for="itemValue">Item Value</label>
+              <div class="input-group col-xs-12 col-sm-6">
+                <span class="input-group-addon">$</span>
+                <input type="number" min="0" step="1" name="itemValue" id="itemValue" placeholder="0" class="form-control"/>
+                <span class="input-group-addon">.00</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group form-group-lg">
+            <label for="itemDescription">Item Description</label>
+            <textarea id="itemDescription" name="itemDescription" rows="4" required class="form-control"></textarea>
+          </div>
+          <div class="form-group form-group-lg">
+            <label for="restrictions">Restrictions</label>
+            <textarea id="restrictions" name="restrictions" rows="4" class="form-control"></textarea>
+          </div>
+          <br/>
+          <legend>Please check all that apply:</legend>
+          <div class="form-group form-group-lg">
+            <div class="form-inline">
+              <div class="checkbox">
+                <label for="optionSelfDelivery"><input type="checkbox" id="optionSelfDelivery" name="optionSelfDelivery" value="true"/> I will deliver my item on (date).</label>
+              </div>
+              <input type="text" id="selfDeliveryDate" class="form-control datepicker" name="selfDeliveryDate" size="10"/>
+            </div>
+          </div>
+          <div class="form-group form-group-lg">
+            <div class="checkbox">
+              <label for="optionPickup"><input type="checkbox" id="optionPickup" name="optionPickup" value="true"/> Please arrange for pick up of my item/certificate.</label>
+            </div>
+          </div>
+          <div class="form-group form-group-lg">
+            <div class="checkbox">
+              <label for="optionPrepareCertificate"><input type="checkbox" id="optionPrepareCertificate" name="optionPrepareCertificate" value="true"/> Please prepare a certificate for my donation.</label>
+            </div>
+          </div>
+          <div class="form-group form-group-lg">
+            <div class="checkbox">
+              <label for="optionDisplayMaterials"><input type="checkbox" id="optionDisplayMaterials" name="optionDisplayMaterials" value="true"/>I will provide brochures, photos or display materials.</label>
+            </div>
+          </div>
+          <div class="form-group form-group-lg">
+            <p class="well">
+            Please note: Auction items must be confirmed by November 1st in order to be included in our event program. Any contributions made after that deadline are still welcome by December 1st and will be recognized in an addendum.</p>
+          </div>
+          <div class="form-group form-group-lg">
+            <button type="submit" class="btn btn-lg btn-primary">Register Item</button>
+          </div>
+        </fieldset>
+    </form>
+  </div>
+</div>

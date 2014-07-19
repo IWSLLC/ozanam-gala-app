@@ -8,7 +8,8 @@ router.use(function(req,res,next) {
   res.locals.layout = "public";
   res.locals.scripts = [
     "/bower_components/jquery/dist/jquery.min.js"
-    ,"/bower_components/bootstrap/dist/js/bootstrap.min.js"
+    ,"/bootstrap/js/bootstrap.min.js"
+    ,"/js/global.js"
   ]
   next()
 })
@@ -27,9 +28,6 @@ router.get('/login', function(req, res) {
     title : "Login"
     ,layout : "login"
   }
-  res.locals.scripts.push("/bower_components/jquery.validation/jquery.validate.js")
-  res.locals.scripts.push("/js/login.js")
-
   if (req.query.redirectTo)
     vm.redirectTo = req.query.redirectTo
   res.render('login', vm);
@@ -42,9 +40,6 @@ router.get('/logout', function(req,res,next) {
 
 router.post('/login', function(req, res, next) {
   failDone = function(info) {
-    res.locals.scripts.push("/bower_components/jquery.validation/jquery.validate.js")
-    res.locals.scripts.push("/js/login.js")
-
     message = "Username or password is invalid."
     if (info && info.message)
       message = info.message
