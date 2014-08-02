@@ -5,14 +5,6 @@
  */
 
 @import url("//fonts.googleapis.com/css?family=Ubuntu");
-.navbar-default .badge {
-  color: #ce3745;
-  background-color: #fff;
-}
-.navbar-inverse .badge {
-  color: #772953;
-  background-color: #fff;
-}
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -3461,7 +3453,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar {
   position: relative;
-  min-height: 50px;
+  min-height: 64px;
   margin-bottom: 0;
   border: 1px solid transparent;
 }
@@ -3552,6 +3544,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   left: 0;
   z-index: 1030;
   -webkit-transform: translate3d(0, 0, 0);
+       -o-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
 }
 @media (min-width: 768px) {
@@ -3571,8 +3564,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-brand {
   float: left;
-  height: 50px;
-  padding: 11px 15px;
+  height: 64px;
+  padding: 18px 15px;
   font-size: 25px;
   line-height: 28px;
 }
@@ -3590,9 +3583,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   position: relative;
   float: right;
   padding: 9px 10px;
-  margin-top: 8px;
+  margin-top: 15px;
   margin-right: 15px;
-  margin-bottom: 8px;
+  margin-bottom: 15px;
   background-color: transparent;
   background-image: none;
   border: 1px solid transparent;
@@ -3616,7 +3609,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-nav {
-  margin: 5.5px -15px;
+  margin: 9px -15px;
 }
 .navbar-nav > li > a {
   padding-top: 10px;
@@ -3655,8 +3648,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     float: left;
   }
   .navbar-nav > li > a {
-    padding-top: 11px;
-    padding-bottom: 11px;
+    padding-top: 18px;
+    padding-bottom: 18px;
   }
   .navbar-nav.navbar-right:last-child {
     margin-right: -15px;
@@ -3672,9 +3665,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-form {
   padding: 10px 15px;
-  margin-top: 2px;
+  margin-top: 9px;
   margin-right: -15px;
-  margin-bottom: 2px;
+  margin-bottom: 9px;
   margin-left: -15px;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
@@ -3758,20 +3751,20 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-bottom-left-radius: 0;
 }
 .navbar-btn {
-  margin-top: 2px;
-  margin-bottom: 2px;
+  margin-top: 9px;
+  margin-bottom: 9px;
 }
 .navbar-btn.btn-sm {
-  margin-top: 6.5px;
-  margin-bottom: 6.5px;
+  margin-top: 13.5px;
+  margin-bottom: 13.5px;
 }
 .navbar-btn.btn-xs {
-  margin-top: 14px;
-  margin-bottom: 14px;
+  margin-top: 21px;
+  margin-bottom: 21px;
 }
 .navbar-text {
-  margin-top: 11px;
-  margin-bottom: 11px;
+  margin-top: 18px;
+  margin-bottom: 18px;
 }
 @media (min-width: 768px) {
   .navbar-text {
@@ -3785,7 +3778,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-default {
   background-color: #ce3745;
-  border-color: #b72d3a;
+  border-color: #d8606b;
 }
 .navbar-default .navbar-brand {
   color: #fff;
@@ -3830,7 +3823,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-default .navbar-collapse,
 .navbar-default .navbar-form {
-  border-color: #b72d3a;
+  border-color: #d8606b;
 }
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
@@ -4694,6 +4687,7 @@ button.close {
 .affix {
   position: fixed;
   -webkit-transform: translate3d(0, 0, 0);
+       -o-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
 }
 @-ms-viewport {
@@ -4905,5 +4899,26 @@ button.close {
   .hidden-print {
     display: none !important;
   }
+}
+.navbar-default .badge {
+  color: #ce3745;
+  background-color: #fff;
+}
+.navbar-inverse .badge {
+  color: #772953;
+  background-color: #fff;
+}
+.navbar-static-top {
+  z-index: 1000;
+  border-width: 5px 0;
+}
+@media (min-width: 768px) {
+  .navbar-static-top {
+    border-radius: 0;
+  }
+}
+.navbar-fixed-top {
+  top: 0;
+  border-width: 5px 0;
 }
 /*# sourceMappingURL=bootstrap.css.map */
