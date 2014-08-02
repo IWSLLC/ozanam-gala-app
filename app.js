@@ -15,7 +15,7 @@ var RedisStore, redisUrl, sessionClient;
 var hbs          = require('./lib/hbs-setup')(app)
 var paypal_sdk = require('paypal-rest-sdk');
 paypal_sdk.configure({
-  'mode': process.env.NODE_ENV === 'production' ? 'live' : 'sandbox', 
+  'mode': process.env.NODE_ENV === 'production' ? 'live' : 'sandbox',
   'client_id': process.env.PP_CLIENT_ID,
   'client_secret': process.env.PP_CLIENT_SECRET
 });
@@ -71,6 +71,12 @@ app.use(passport.session())
 
 //Handlebars templates to use client-side
 app.use(hbs.exposeTemplates)
+
+app.use(function(req,res,next) {
+  res.locals.production = process.env.NODE_ENV == 'production'
+  res.locals.development = process.env.NODE_ENV == 'development'
+  next()
+})
 
 //public routes.
 app.use(require("./routes/public"))
