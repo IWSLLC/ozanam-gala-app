@@ -33,6 +33,18 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
+if (/yes/i.test(process.env.ENABLESSL)) {
+  app.use(function(req, res, next) {
+    var port, usingSSL;
+    usingSSL = req.secure || req.headers['x-forwarded-proto'] == 'https';
+    if (!usingSSL) {
+      return res.redirect(301, "https://" + process.env.SSL_HOSTNAME + req.originalUrl);
+    } else {
+      return next();
+    }
+  });
+}
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', hbs.engine);
