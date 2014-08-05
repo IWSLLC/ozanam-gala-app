@@ -121,30 +121,59 @@ body p.lead {
 .image-web1 {
   width: 100%;
   height: 408px;
-  background: url('http://assets.ozanamgala.org/web1.jpg') center center no-repeat;
+  background: url('//s3.amazonaws.com/assets.ozanamgala.org/web1.jpg') center center no-repeat;
   background-size: cover;
 }
 .image-web2 {
   width: 100%;
   height: 408px;
-  background: url('http://assets.ozanamgala.org/web2.jpg') center center no-repeat;
+  background: url('//s3.amazonaws.com/assets.ozanamgala.org/web2.jpg') center center no-repeat;
   background-size: cover;
 }
 .image-web3 {
   width: 100%;
   height: 408px;
-  background: url('http://assets.ozanamgala.org/web3.jpg') center center no-repeat;
+  background: url('//s3.amazonaws.com/assets.ozanamgala.org/web3.jpg') center center no-repeat;
   background-size: cover;
 }
 .image-web4 {
   width: 100%;
   height: 408px;
-  background: url('http://assets.ozanamgala.org/web4.jpg') center center no-repeat;
+  background: url('//s3.amazonaws.com/assets.ozanamgala.org/web4.jpg') center center no-repeat;
+  background-size: cover;
+}
+.image-web5 {
+  width: 100%;
+  height: 408px;
+  background: url('//s3.amazonaws.com/assets.ozanamgala.org/web5.jpg') center center no-repeat;
+  background-size: cover;
+}
+.image-web6 {
+  width: 100%;
+  height: 408px;
+  background: url('//s3.amazonaws.com/assets.ozanamgala.org/web6.jpg') center center no-repeat;
   background-size: cover;
 }
 .monotype {
   font-family: consolas;
 }
+
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px; height: 0; overflow: hidden;
+}
+
+.video-container iframe,
+.video-container object,
+.video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 550px;
+}
+
 
 @media (min-width: 550px) {
   .navbar-inner {
@@ -157,16 +186,21 @@ body p.lead {
   .mobile-center {
     text-align: center;
   }
+
+  .video-container iframe,
+  .video-container object,
+  .video-container embed {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+  }
+
 }
 @media (max-width: 767px) {
   body { padding: 0; }
   .sponsorships ul {
     padding-left : 0;
-  }
-}
-@media (max-width: 990px) {
-  #wrap {
-  padding-right: 20px;
-  padding-left: 20px;
   }
 }

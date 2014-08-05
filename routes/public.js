@@ -19,7 +19,7 @@ router.use(require("./register"))
 
 router.get("/", function(req,res,next){ return res.render('index', {head_image_class : 'image-web2'})})
 router.get('/history', function(req,res,next) { res.render('history', {head_image_class : 'image-web4', title : 'Our History'})})
-router.get('/sponsor', function(req,res,next) { res.render('sponsor', {head_image_class : 'image-web1', title : 'Sponsorships'}) })
+router.get('/sponsor', function(req,res,next) { res.render('sponsor', {head_image_class : 'image-web5', title : 'Sponsorships'}) })
 router.get('/problem', function(req,res,next) { res.render('problem', {title : 'Oops! Something happened'})})
 
 /* GET home page. */
