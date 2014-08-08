@@ -1,6 +1,6 @@
 {
   "name": "ozanam-gala",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": true,
   "scripts": {
     "postinstall": "./post-install.sh",
@@ -27,6 +27,7 @@
     "lodash": "^2.4.1",
     "moment": "^2.6.0",
     "moment-timezone": "0.0.6",
+    "mongo-repo": "git://github.com/iwsllc/mongo-repo",
     "mongodb": "^1.4.2",
     "morgan": "^1.0.1",
     "passport": "^0.2.0",

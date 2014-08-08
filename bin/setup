@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
 var program  = require("commander")
-var accounts = require("../lib/collections/accounts")
 var async    = require("async")
+
+//init the mongo db connection
+require('mongo-repo').db.init(process.env.MONGO)
+var accounts = require("../lib/collections/accounts")
 
 var finished = function(err) {
   if (err) {
