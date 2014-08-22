@@ -8,9 +8,9 @@ var moment  = require("moment")
 var jsoncsv = require("json-csv")
 
 var exportRegistrationToCsv = function(data, next) {
-  jsoncsv.toCSV(
+  jsoncsv.csvBuffered(
+    data,
     {
-      data: data,
       fields : [
         {name : '_id', label : 'Confirmation'},
         {name : 'contact.contact', label : 'contact'},
@@ -46,9 +46,9 @@ var exportRegistrationToCsv = function(data, next) {
 }
 
 var exportDonationsToCsv = function(data,next) {
-  jsoncsv.toCSV(
+  jsoncsv.csvBuffered(
+    data,
     {
-      data: data,
       fields : [
         {name : '_id', label : 'Confirmation'},
         {name : 'contact.donor', label : 'donor'},

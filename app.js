@@ -56,7 +56,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 //session setup
-app.use(cookieParser(process.env.SESSION_SECRET || 'hello cooooookie'));
+//app.use(cookieParser(process.env.SESSION_SECRET || 'hello cooooookie'));
+var cookieOptions = {
+   cookie            : {httpOnly: true} //default setting for cookies.
+  ,secret            : process.env.SESSION_SECRET || 'hello cooooookie'
+  ,saveUninitialized : true //default
+  ,resave            : true //default
+}
+
 //use redis (if redis env setup)
 if (process.env.REDIS) {
   RedisStore = require('connect-redis')(session);
@@ -65,14 +72,12 @@ if (process.env.REDIS) {
   if (redisUrl.auth) {
     sessionClient.auth(redisUrl.auth.split(":")[1]);
   }
-  app.use(session({
-    store: new RedisStore({
-      client: sessionClient
-    })
-  }));
-} else {
-  app.use(session());
+  cookieOptions.store = new RedisStore({
+    client: sessionClient
+  })
 }
+app.use(session(cookieOptions));
+
 
 //static files /public == /
 app.use(express.static(path.join(__dirname, 'public')));
