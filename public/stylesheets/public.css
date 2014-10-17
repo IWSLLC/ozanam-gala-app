@@ -154,26 +154,15 @@ body p.lead {
   background: url('//s3.amazonaws.com/assets.ozanamgala.org/web6.jpg') center center no-repeat;
   background-size: cover;
 }
+.image-web7 {
+  width: 100%;
+  height: 408px;
+  background: url('//s3.amazonaws.com/assets.ozanamgala.org/web7.jpg') center center no-repeat;
+  background-size: cover;
+}
 .monotype {
   font-family: consolas;
 }
-
-
-.video-container {
-    position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 30px; height: 0; overflow: hidden;
-}
-
-.video-container iframe,
-.video-container object,
-.video-container embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 550px;
-}
-
 
 @media (min-width: 550px) {
   .navbar-inner {
@@ -185,16 +174,6 @@ body p.lead {
 @media (max-width: 550px) {
   .mobile-center {
     text-align: center;
-  }
-
-  .video-container iframe,
-  .video-container object,
-  .video-container embed {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
   }
 
 }
