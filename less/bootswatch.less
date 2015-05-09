@@ -1,9 +1,13 @@
-// United 3.2.0
+// United 3.3.4
 // Bootswatch
 // -----------------------------------------------------
 
-@import url("//fonts.googleapis.com/css?family=Ubuntu");
-
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Ubuntu'), url(//fonts.gstatic.com/s/ubuntu/v7/sVvvcJDRTINJla2R4XwPVevvDin1pK8aKteLpeZ5c0A.ttf) format('truetype');
+}
 // Navbar =====================================================================
 
 .navbar {
@@ -25,18 +29,19 @@
   }
 }
 
-.navbar-static-top {
-  z-index: @zindex-navbar;
-  border-width: @navbar-default-border-width 0;
+@media (max-width: @grid-float-breakpoint-max) {
 
-  @media (min-width: @grid-float-breakpoint) {
-    border-radius: 0;
+  .navbar {
+
+    .dropdown-menu {
+      a {
+        color: #fff;
+      }
+    }
   }
 }
-.navbar-fixed-top {
-  top: 0;
-  border-width: @navbar-default-border-width 0;
-}
+
+
 // Buttons ====================================================================
 
 // Typography =================================================================
