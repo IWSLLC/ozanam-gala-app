@@ -25,7 +25,7 @@
     "jade": "^1.9.2",
     "json-csv": "^1.0.5",
     "lodash": "^3.8.0",
-    "moment": "^2.git 10.2",
+    "moment": "^2.0.2",
     "moment-timezone": "^0.3.1",
     "mongo-repo": "git://github.com/iwsllc/mongo-repo",
     "mongodb": "^2.0.28",
