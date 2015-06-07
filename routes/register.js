@@ -1,11 +1,13 @@
 var router  = require('express').Router();
 var reg     = require('../lib/collections/registrations')
+var Registration     = require('../lib/models/registration')
 var ocrypto = require('../lib/ocrypto')
 var number  = require('../lib/number')
 var pay     = require('../lib/payment')
 var url     = require('url')
 var moment  = require('moment-timezone')
 var notify  = require('../lib/notifications')
+var pricing = require("../lib/pricing")
 
 var handleError = function(err, doc, res) {
   console.log(err);
@@ -41,9 +43,9 @@ var thankyou = function(req, res) {
     model.title = 'Registration'
     model.id = doc._id.toHexString()
     model.amount = number.formatMoney(doc.order.total)
-    model.sponsorship = reg.getSponsorshipInfo(doc.order.level) || {amount: 0.0, description : 'Extra Seats Only', level: 10}
+    model.sponsorship = pricing.getSponsorshipInfo(doc.order.level) || {amount: 0.0, description : 'Extra Seats Only', level: 10}
     model.donation = number.formatMoney(doc.order.donation)
-    model.extraSeats = number.formatMoney(reg.getExtraSeatsAmount(doc.order.extraSeats))
+    model.extraSeats = number.formatMoney(pricing.getExtraSeatsAmount(doc.order.extraSeats))
     model.doc = doc
     model.problem = req.query.problem || 0
     return res.render('thankyou', model)
@@ -68,10 +70,10 @@ var confirm = function(req,res) {
     model.id = doc._id.toHexString()
     model.problem = req.query.problem || null
     model.amount = number.formatMoney(doc.order.total)
-    model.nopaypal = doc.order.total > 10000
-    model.sponsorship = reg.getSponsorshipInfo(doc.order.level) || {amount: 0.0, description : 'Extra Seats Only', level: 10}
+    model.nopaypal = doc.order.total > 10000 || doc.order.total <= 0
+    model.sponsorship = pricing.getSponsorshipInfo(doc.order.level) || {amount: 0.0, description : 'Extra Seats Only', level: 10}
     model.donation = number.formatMoney(doc.order.donation)
-    model.extraSeats = number.formatMoney(reg.getExtraSeatsAmount(doc.order.extraSeats))
+    model.extraSeats = number.formatMoney(pricing.getExtraSeatsAmount(doc.order.extraSeats))
     model.doc = doc
     return res.render('confirm', model)
   })
@@ -114,9 +116,9 @@ var finish = function(req,res) {
     var model = {}
     model.title = 'Registration'
     model.amount = number.formatMoney(record.order.total)
-    model.sponsorship = reg.getSponsorshipInfo(record.order.level) || {amount: 0.0, description : 'Extra Seats Only', level: 10}
+    model.sponsorship = pricing.getSponsorshipInfo(record.order.level) || {amount: 0.0, description : 'Extra Seats Only', level: 10}
     model.donation = number.formatMoney(record.order.donation)
-    model.extraSeats = number.formatMoney(reg.getExtraSeatsAmount(record.order.extraSeats))
+    model.extraSeats = number.formatMoney(pricing.getExtraSeatsAmount(record.order.extraSeats))
     model.id = record._id.toHexString()
     return res.render('finish', model)
   })
@@ -138,6 +140,7 @@ var postRegister = function(req, res) {
   var worked = true;
 
   var broke = []
+  //TODO: this is old.  need to introduce hapi-joi.
   if (!((post.contact || '').trim()))
     broke.push({field: 'contact', message: 'required'})
   if (!((post.street || '').trim()))
@@ -153,7 +156,7 @@ var postRegister = function(req, res) {
   if (!((post.email || '').trim()))
     broke.push({field: 'email', message: 'required'})
 
-  var r = reg.new()
+  var r = new Registration()
   r.order.level = parseInt(post.level)
   r.order.extraSeats = parseInt(post.extra || '0')
   r.order.donation = parseFloat(post.donation || '0')
@@ -174,8 +177,8 @@ var postRegister = function(req, res) {
 
   //TODO: later we can re-organize this and place the pricing into the db.
   r.order.total += r.order.donation
-  r.order.total += reg.getExtraSeatsAmount(r.order.extraSeats)
-  r.order.total += reg.getSponsorshipAmount(r.order.level)
+  r.order.total += pricing.getExtraSeatsAmount(r.order.extraSeats)
+  r.order.total += pricing.getSponsorshipAmount(r.order.level)
 
   r.contact.company = post.company
   r.contact.contact = post.contact
