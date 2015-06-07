@@ -6,6 +6,7 @@ var number  = require("../lib/number")
 var util    = require("util")
 var moment  = require("moment")
 var jsoncsv = require("json-csv")
+var pricing = require("../lib/pricing")
 
 var exportRegistrationToCsv = function(data, next) {
   jsoncsv.csvBuffered(
@@ -24,7 +25,7 @@ var exportRegistrationToCsv = function(data, next) {
         {name : 'contact.email', label : 'email'},
         {name : 'order.dateRegistered', label : 'dateRegistered',filter : function(value) { return moment(value).format('M/D/YYYY')}},
         {name : 'order.year', label : 'year'},
-        {name : 'order.level', label : 'level', filter : function(value) { return reg.getSponsorshipInfo(value).description }},
+        {name : 'order.level', label : 'level', filter : function(value) { return pricing.getSponsorshipInfo(value).description }},
         {name : 'order.extraSeats', label : 'extra seats'},
         {name : 'order.donation', label : 'Donation'},
         {name : 'order.myoTaxCredit', label : 'myo tax credit', filter: function(value) { return value === true ? 'Yes' : 'No'}},
@@ -102,7 +103,7 @@ router.get('/registrations/:year', function(req,res,next) {
       })
     else {
       _.each(data, function(i) {
-        i.sponsorship = reg.getSponsorshipInfo(i.order.level).description
+        i.sponsorship = pricing.getSponsorshipInfo(i.order.level).description
         i.total = number.formatMoney(i.order.total)
       })
 

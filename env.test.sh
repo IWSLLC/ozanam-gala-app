@@ -6,7 +6,7 @@ export SSL_HOSTNAME=localhost:8000
 export HOSTNAME=localhost:3000
 export SESSION_SECRET="lkj234usfd908nm234sdflk324"
 export NODE_ENV=development
-export MONGO="mongodb://localhost:27017/gala?auto_reconnect=true&maxPoolSize=10"
+export MONGO="mongodb://localhost:27017/gala_test?auto_reconnect=true&maxPoolSize=10"
 export REDIS="redis://localhost:6379/"
 export ENABLE_DONATION="yes"
 export ENABLE_REGISTRATION="yes"

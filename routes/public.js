@@ -41,8 +41,12 @@ router.get('/logout', function(req,res,next) {
 router.post('/login', function(req, res, next) {
   failDone = function(info) {
     message = "Username or password is invalid."
-    if (info && info.message)
-      message = info.message
+    if (info) {
+      if (info.message)
+        message = info.message
+      else
+        message = info
+    }
     return res.render('login', { layout : 'login', message : message, redirectTo : req.body.redirectTo })
   }
   passport.authenticate('local', function(err,user,info) {
