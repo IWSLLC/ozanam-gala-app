@@ -11,3 +11,4 @@ notifications:
 services:
   - redis-server
   - mongodb
+sudo: false
