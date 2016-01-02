@@ -37,10 +37,8 @@ passport.deserializeUser(function(id, done) {
 if (/yes/i.test(process.env.ENABLESSL)) {
   debug("SSL Enabled... adding middleware re-router")
   app.use(function(req, res, next) {
-    debug("landed")
     var port, usingSSL;
     usingSSL = req.secure || req.headers['x-forwarded-proto'] == 'https';
-    debug("landed. " + (usingSSL ? "using SSL" : ""))
     if (!usingSSL) {
       return res.redirect(301, "https://" + process.env.HOSTNAMESSL + req.originalUrl);
     } else {
