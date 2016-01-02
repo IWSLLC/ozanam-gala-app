@@ -60,7 +60,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 //app.use(cookieParser(process.env.SESSION_SECRET || 'hello cooooookie'));
 var cookieOptions = {
    cookie            : {httpOnly: true} //default setting for cookies.
-  ,secret            : process.env.SESSION_SECRET || 'hello cooooookie'
+  ,secret            : process.env.SESSION_SECRET
   ,saveUninitialized : true //default
   ,resave            : true //default
 }

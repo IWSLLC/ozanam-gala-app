@@ -52,7 +52,6 @@ router.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err,user,info) {
     if (err) return next(err)
     if (!user) return failDone(info)
-
     redirectTo = req.body.redirectTo
     if (!redirectTo) redirectTo = '/manage'
 

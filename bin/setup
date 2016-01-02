@@ -84,9 +84,9 @@ program
             ],function(err,results) {
               if (err) return finished(err.message)
 
-              accounts.update({_id : doc._id}, {$set : {name : doc.name, password : doc.password}}, function(err, affected) {
+              accounts.update({_id : doc._id}, {$set : {name : doc.name, password : doc.password}}, function(err, result) {
                 if (err) return finished(err.message)
-                console.log("Done.  %d affected", affected)
+                console.log("Done.  %d affected", result.result.n)
                 finished()
               })
             })
