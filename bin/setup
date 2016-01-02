@@ -4,7 +4,13 @@ var program  = require("commander")
 var async    = require("async")
 
 //init the mongo db connection
-require('mongo-repo').db.init(process.env.MONGO)
+require("../config").init()
+var debug = require('debug')('ozanam-gala:setup-tool');
+//init the mongo db connection
+require('mongo-repo').db.init(process.env.MONGO, function(err) {
+  if (err) logger.log(err)
+})
+
 var accounts = require("../lib/collections/accounts")
 
 var finished = function(err) {
@@ -46,6 +52,7 @@ program
 
           accounts.insert(user, function(err, doc) {
             if (err) return finished(err.message)
+            console.log(require("util").inspect(doc, false,null,true))
             console.log("Done.  %s", doc._id.toString())
             finished()
           })

@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '0.10'
+- '5.3'
 script: "bin/t"
 cache:
   directories:
@@ -10,5 +10,14 @@ notifications:
   email : false
 services:
   - redis-server
-  - mongodb
 sudo: false
+env:
+  - CXX=g++-4.8
+addons:
+  apt:
+    sources:
+    - mongodb-upstart
+    - ubuntu-toolchain-r-test
+    packages :
+    - mongodb-org-server
+    - g++-4.8

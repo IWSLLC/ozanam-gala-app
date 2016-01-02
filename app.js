@@ -13,6 +13,8 @@ var app          = express();
 var RedisStore, redisUrl, sessionClient;
 var hbs          = require('./lib/hbs-setup')(app)
 var paypal_sdk = require('paypal-rest-sdk');
+var debug = require('debug')('ozanam-gala:app');
+
 paypal_sdk.configure({
   'mode': process.env.NODE_ENV === 'production' ? 'live' : 'sandbox',
   'client_id': process.env.PP_CLIENT_ID,
@@ -33,11 +35,14 @@ passport.deserializeUser(function(id, done) {
 });
 
 if (/yes/i.test(process.env.ENABLESSL)) {
+  debug("SSL Enabled... adding middleware re-router")
   app.use(function(req, res, next) {
+    debug("landed")
     var port, usingSSL;
     usingSSL = req.secure || req.headers['x-forwarded-proto'] == 'https';
+    debug("landed. " + (usingSSL ? "using SSL" : ""))
     if (!usingSSL) {
-      return res.redirect(301, "https://" + process.env.SSL_HOSTNAME + req.originalUrl);
+      return res.redirect(301, "https://" + process.env.HOSTNAMESSL + req.originalUrl);
     } else {
       return next();
     }
