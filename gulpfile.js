@@ -14,10 +14,13 @@ gulp.task('clean', function(cb) {
 })
 
 gulp.task('static', function() {
-  return gulp.src(['public/bower_components/bootstrap/dist/js/bootstrap.min.js'])
+  return gulp.src(['node_modules/bootstrap/dist/js/bootstrap.min.js'])
     .pipe(gulp.dest('public/bootstrap/js'))
 })
 
+gulp.task('dependencies', function() {
+
+})
 gulp.task('bootstrap', function() {
   return gulp.src(["less/index.less"])
     .pipe(less())

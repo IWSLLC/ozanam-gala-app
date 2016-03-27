@@ -7,8 +7,8 @@ router.use(function(req,res,next) {
   res.locals.titlesuffix = false
   res.locals.layout = "public";
   res.locals.scripts = [
-    "/bower_components/jquery/dist/jquery.min.js"
-    ,"/bootstrap/js/bootstrap.min.js"
+    "//code.jquery.com/jquery-2.2.2.min.js"
+    ,"/js/dependencies.js"
     ,"/js/global.js"
   ]
   next()
