@@ -28,6 +28,6 @@
     "jquery": "^2.1.4",
     "moment": "^2.10.2",
     "bootstrap-datepicker": "^1.4.0",
-    "bootstrap": "^3.3.4"
+    "bootstrap": "^3.3.7"
   }
 }
